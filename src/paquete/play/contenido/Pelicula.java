@@ -33,8 +33,6 @@ public class Pelicula {
         this.calificar(calificacion);
     }
 
-
-
     //Metodo para reproducir pelicula con un mensaje + el nombre de la pelicula
     public void reproducir() {
         System.out.println("Reproduciendo " + titulo);

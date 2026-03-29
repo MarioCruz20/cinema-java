@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Plataforma {
     private String nombre;
-    private List<Pelicula> contenido;
+    private List<Pelicula> contenido; //Relacion por Agregacion
 
     //Constructor que recibe el nombre
     public Plataforma(String nombre) {
@@ -28,12 +28,12 @@ public class Plataforma {
         }
     }
 
-    //metodo
+    //metodo para eliminar peliculas
     public void eliminar(Pelicula elemento) {
         this.contenido.remove(elemento);
     }
 
-    //Declaracion de getters
+    //Declaracion de getters para acceder a estos valores
     public String getNombre() {
         return nombre;
     }

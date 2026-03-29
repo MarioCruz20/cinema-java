@@ -4,7 +4,6 @@ package paquete.play.plataforma;
 import paquete.play.contenido.Pelicula;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 public class Usuario {
     public String nombre;
