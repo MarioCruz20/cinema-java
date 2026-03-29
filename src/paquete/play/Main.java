@@ -6,9 +6,7 @@ import paquete.play.plataforma.Usuario;
 import paquete.play.util.ScannerUtils;
 
 public class Main {
-    //Clase 15 Operaciones basicas con listas
     //
-    Plataforma plataforma = new Plataforma(NOMBRE_PLATAFORMA);
     //Clase 12: Constantes
     //Las constantes son valores que se definen 1 vez
     // y nunca pueden cambiar
@@ -17,8 +15,11 @@ public class Main {
     //escriben en mayuscula
     public static final String NOMBRE_PLATAFORMA = "CINEMA PLAY 🖐️😐🤚";
     public static final String VERSION = "1.0.0";
-    static void main(String[] args) {
 
+    static void main(String[] args) {
+        //Clase 15 Operaciones basicas con listas
+
+        Plataforma plataforma = new Plataforma(NOMBRE_PLATAFORMA);
         System.out.println(NOMBRE_PLATAFORMA + " v" + VERSION);
 
         //Instanciar ScannerUtil para estaticas
@@ -31,6 +32,18 @@ public class Main {
 
         // Pelicula(Los valores que recibira ese objeto)
         Pelicula pelicula = new Pelicula(nombre, duracion, genero, calificacion);
+
+        Pelicula pelicula2 = new Pelicula("F1 the movie", 220, "Accion");
+
+        //Agregar pelicula con metodo agregar
+        //y se manda la pelicula
+        plataforma.agregar(pelicula);
+        plataforma.agregar(pelicula2);
+        System.out.println("Numero de elementos en la plataforma: " + plataforma.getContenido().size());
+
+        plataforma.eliminar(pelicula2);
+
+        plataforma.mostrarTitutlo();
 
         pelicula.setDescripcion("Pelicula de fantasia");
 
@@ -64,7 +77,7 @@ public class Main {
         //System.out.println("Numero de premios: " + numeroDePremios);
 
         //Imprimir ficha tecnica de la pelicula
-        System.out.println(pelicula.obtenerFichaTecnica());
+        //System.out.println(pelicula.obtenerFichaTecnica());
         //Mostrar pero usuario
         Usuario usuario = new Usuario("Mario", "mario0534@gmail.com");
         //usuario.nombre = "Mario";  ESTAS 2 LINEAS SOBRAN GRACIAS AL CONSTRUCTOR EN Usuario en Usuario.java
