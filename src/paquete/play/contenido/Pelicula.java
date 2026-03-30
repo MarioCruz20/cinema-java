@@ -40,7 +40,7 @@ public class Pelicula {
 
     //Metodo que retorna informacion de la pelicula
     public String obtenerFichaTecnica() {
-        return titulo + " (" + fechaEstreno + ")\n" +
+        return "🎥🍿🥤" + titulo + " (" + fechaEstreno + ")\n" +
                 "Genero: " + genero + "\n" +
                 "Calificación: " + calificacion + "/5";
 
