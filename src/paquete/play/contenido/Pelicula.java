@@ -1,5 +1,7 @@
 package paquete.play.contenido;
 
+import paquete.play.plataforma.Genero;
+
 import java.time.LocalDate;
 
 //Declaración de la clase junto a sus atributos y metodos
@@ -7,14 +9,14 @@ public class Pelicula {
     private String titulo;
     private String descripcion;
     private int duracion;
-    private String genero;
+    private Genero genero;
     //LocalDate solo puede almacenar año, mes y día, no toma hora, minutos ni segundos por si solo
     private LocalDate fechaEstreno;
     private double calificacion;
     private boolean disponible;
 
     //Constructor usualmente va despues de los atributos
-    public Pelicula(String titulo, int duracion, String genero){
+    public Pelicula(String titulo, int duracion, Genero genero){
         this.titulo = titulo;
         this.duracion = duracion;
         this.genero = genero;
@@ -22,7 +24,7 @@ public class Pelicula {
         this.disponible = true;
     }
 
-    public Pelicula(String titulo, int duracion, String genero, double calificacion) {
+    public Pelicula(String titulo, int duracion, Genero genero, double calificacion) {
         //Esto puede definirse tambien usando
         //otro cosntructor, en este caso el anterior Pelicula
         //this.titulo = titulo;
@@ -74,7 +76,7 @@ public class Pelicula {
         return duracion;
     }
 
-    public String getGenero() {
+    public Genero getGenero() {
         return genero;
     }
 

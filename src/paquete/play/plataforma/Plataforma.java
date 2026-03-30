@@ -3,6 +3,7 @@ package paquete.play.plataforma;
 import paquete.play.contenido.Pelicula;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Plataforma {
@@ -21,16 +22,12 @@ public class Plataforma {
         this.contenido.add(elemento);
     }
 
-    public void mostrarTitutlo() {
-        //for para recorrer los elementos de la lista contenido
-        //reccore todo el contenido y muestra cada una de las peliculas
-        //for (Pelicula pelicula : contenido) {
-        //  System.out.println("🍿🥤" + pelicula.getTitulo());
-        //}
-
-        //Expresion lambda -> para usar una funcion en 1 sola linea
-        contenido.forEach(contenido -> System.out.println(contenido.getTitulo()));
-
+    //Lista de strings
+    public List<String>getTitulos() {
+        return contenido.stream() //retornar lista de titulos
+                //Tranforma una lista en un objeto distinto
+                .map(Pelicula::getTitulo)
+                .toList();
     }
 
     //metodo para eliminar peliculas
@@ -53,11 +50,26 @@ public class Plataforma {
 
     //metodo para buscar genero por mensaje del usuario2
 
-    public List<Pelicula> buscarPorGenero(String genero) {
+    public List<Pelicula> buscarPorGenero(Genero genero) {
         return contenido.stream()
-                .filter(contenido -> contenido.getGenero().equalsIgnoreCase(genero))
+                .filter(contenido -> contenido.getGenero().equals(genero))
                 .toList(); //para convertir el filtro en una lista de pelicula
 
+    }
+
+    //Metodo para ordenar peliculas por calificacion
+    public List<Pelicula> getPopulares(int cantidad) {
+        return contenido.stream()
+                .sorted(Comparator.comparingDouble(Pelicula::getCalificacion).reversed())
+                .limit(cantidad)
+                .toList();
+    }
+
+    public int getDuracionTotal() {
+        return contenido.stream()
+                .mapToInt(Pelicula::getDuracion) //Convierte
+                .sum(); //Suma las horas de las
+                        //todas las peliculas en la lista
     }
 
     //Declaracion de getters para acceder a estos valores
