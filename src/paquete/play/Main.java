@@ -5,6 +5,7 @@ import paquete.play.plataforma.Plataforma;
 import paquete.play.plataforma.Usuario;
 import paquete.play.util.ScannerUtils;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -21,8 +22,10 @@ public class Main {
     public static final int AGREGAR = 1;
     public static final int MOSTRAR_TODO = 2;
     public static final int BUSCAR_POR_TITULO = 3;
-    public static final int ELIMINAR = 4;
-    public static final int SALIR = 5;
+    public static final int BUSCAR_POR_GENERO = 4;
+
+    public static final int ELIMINAR = 8;
+    public static final int SALIR = 9;
 
     static void main(String[] args) {
 
@@ -43,13 +46,14 @@ public class Main {
                     1. Agregar contenido
                     2. Mostrar todo
                     3. Buscar por titulo
-                    4. Eliminar
-                    5. Salir
+                    4. Buscar por genero
+                    8. Eliminar
+                    9. Salir
                     """);
 
             //Definir continuacion
             //Mostrar mensaje + la opcion elegida del usuario
-            System.out.println("Opción elegida: " + opcionElegida);
+            //System.out.println("Opción elegida: " + opcionElegida);
 
             switch (opcionElegida) {
                 case AGREGAR -> {
@@ -75,6 +79,17 @@ public class Main {
                         System.out.println(nombreBuscado + " no existe dentro de " + plataforma);
                     }
                 }
+                case BUSCAR_POR_GENERO -> {
+                    //Para permitir a usuario ingresar genero a buscar
+                    String generoBuscado = ScannerUtils.capturaTexto("Genero del contenido a buscar ");
+
+                    //Lista de peliculas
+                    List<Pelicula> contenidoPorGenero = plataforma.buscarPorGenero(generoBuscado);
+                    contenidoPorGenero.forEach(contenido -> System.out.println(contenido.obtenerFichaTecnica() + "\n"));
+
+
+                }
+
                 case ELIMINAR -> {
                     String nombreAEliminar = ScannerUtils.capturaTexto("Nombre del contenido a buscar: ");
                     Pelicula contenido = plataforma.buscarPorTitulo(nombreAEliminar);

@@ -21,11 +21,16 @@ public class Plataforma {
         this.contenido.add(elemento);
     }
 
-    public void mostrarTitutlo(){
+    public void mostrarTitutlo() {
         //for para recorrer los elementos de la lista contenido
-        for (Pelicula pelicula : contenido) {
-            System.out.println("🍿🥤" + pelicula.getTitulo());
-        }
+        //reccore todo el contenido y muestra cada una de las peliculas
+        //for (Pelicula pelicula : contenido) {
+        //  System.out.println("🍿🥤" + pelicula.getTitulo());
+        //}
+
+        //Expresion lambda -> para usar una funcion en 1 sola linea
+        contenido.forEach(contenido -> System.out.println(contenido.getTitulo()));
+
     }
 
     //metodo para eliminar peliculas
@@ -35,15 +40,24 @@ public class Plataforma {
 
     //Método para cargar 1 sola pelicula por título
     public Pelicula buscarPorTitulo(String titulo) {
-        for (Pelicula pelicula : contenido) {
-            //equalsIgnoreCase busca sin importar mayusculas o minusculas
-            //del titulo que se manda como parametro
-            if (pelicula.getTitulo().equalsIgnoreCase(titulo)) {
-                return pelicula; //si se cumple la condicion retorna la pelicula
-            }
-        }
-        return null; //Si no encuentra similitudes
-                    // por titulo no retorna nada(null)
+        //Enfoque funcional
+        //stream es como una linea transportadora
+        //que toma cada elemento y aplica condicionales
+        //El filtro es que el nombre coincida el titulo que recibe el metodo
+        return contenido.stream()
+                .filter(contenido -> contenido.getTitulo().equalsIgnoreCase(titulo))
+                .findFirst()
+                .orElse(null); //else, si no existe ese titulo retorna null
+
+    }
+
+    //metodo para buscar genero por mensaje del usuario2
+
+    public List<Pelicula> buscarPorGenero(String genero) {
+        return contenido.stream()
+                .filter(contenido -> contenido.getGenero().equalsIgnoreCase(genero))
+                .toList(); //para convertir el filtro en una lista de pelicula
+
     }
 
     //Declaracion de getters para acceder a estos valores
