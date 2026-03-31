@@ -1,6 +1,7 @@
 package paquete.play.plataforma;
 
 import paquete.play.contenido.Pelicula;
+import paquete.play.excepcion.PeliculaExistenteException;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -19,6 +20,13 @@ public class Plataforma {
 
     //metodo que no retorne nada
     public void agregar(Pelicula elemento) {
+        //se le manda el titulo del elemento a a agregar
+        Pelicula contenido = this.buscarPorTitulo(elemento.getTitulo());
+        if (contenido != null) { //si encuentra contenido
+            throw new PeliculaExistenteException(elemento.getTitulo());//manda el titulo de esa pelicula
+            //throw para lanzar la excepcion si la pelicula YA EXISTE
+        }//si la excepcion ocurre no se crea el contenido
+
         this.contenido.add(elemento);
     }
 

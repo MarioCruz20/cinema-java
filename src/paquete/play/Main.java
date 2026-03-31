@@ -1,6 +1,7 @@
 package paquete.play;
 
 import paquete.play.contenido.Pelicula;
+import paquete.play.excepcion.PeliculaExistenteException;
 import paquete.play.plataforma.Genero;
 import paquete.play.plataforma.Plataforma;
 import paquete.play.plataforma.Usuario;
@@ -60,10 +61,15 @@ public class Main {
                     int duracion = ScannerUtils.capturarNumero("Duracion del contenido");
                     double calificacion = ScannerUtils.capturarDecimal("Calificacion del contenido");
 
-                    //Instanciar pelicua importada DE src/paquete.play/contenido/Pelicula.java
-                    // Pelicula(Los valores que recibira ese objeto)
-                    plataforma.agregar(new Pelicula(nombre, duracion, genero, calificacion));
+                    //Intentar agregar la plataforma
+                    try {
+                        //Instanciar pelicula importada DE src/paquete.play/contenido/Pelicula.java
+                        // Pelicula(Los valores que recibira ese objeto)
+                        plataforma.agregar(new Pelicula(nombre, duracion, genero, calificacion));
 
+                    } catch(PeliculaExistenteException e) { //si no se pudo agregar plataforma
+                        System.out.println(e.getMessage()); //se captura la excepcion y retorna mensaje de la excepcion
+                    }
                 }
                 case MOSTRAR_TODO -> {
                     List<String> titulos = plataforma.getTitulos();
@@ -93,7 +99,6 @@ public class Main {
                     List<Pelicula> contenidoPopulares = plataforma.getPopulares(cantidad); //Ordena peliculas de mayor a menor calificacion
                     contenidoPopulares.forEach(contenido -> System.out.println(contenido.obtenerFichaTecnica() + "\n"));
                 }
-
 
                 case ELIMINAR -> {
                     String nombreAEliminar = ScannerUtils.capturaTexto("Nombre del contenido a buscar: \n");
