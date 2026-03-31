@@ -1,6 +1,7 @@
 package paquete.play;
 
 import paquete.play.contenido.Pelicula;
+import paquete.play.contenido.ResumenContenido;
 import paquete.play.excepcion.PeliculaExistenteException;
 import paquete.play.plataforma.Genero;
 import paquete.play.plataforma.Plataforma;
@@ -21,6 +22,7 @@ public class Main {
     public static final int BUSCAR_POR_TITULO = 3;
     public static final int BUSCAR_POR_GENERO = 4;
     public static final int VER_POPULARES = 5;
+    public static  final int REPRODUCIR = 6;
     public static final int ELIMINAR = 8;
     public static final int SALIR = 9;
 
@@ -46,6 +48,7 @@ public class Main {
                     3. Buscar por titulo
                     4. Buscar por genero
                     5. Ver populares
+                    6. Reproducir
                     8. Eliminar
                     9. Salir
                     """);
@@ -72,8 +75,9 @@ public class Main {
                     }
                 }
                 case MOSTRAR_TODO -> {
-                    List<String> titulos = plataforma.getTitulos();
-                    titulos.forEach(System.out::println); //Imprimir cada elemento por titulo
+                    List<ResumenContenido> contenidosResumidos = plataforma.getResumenes();
+                    //Imprime la lista por cada elemento con todos sus valores
+                    contenidosResumidos.forEach(resumen -> System.out.println(resumen.toString()));
                 }
                 case BUSCAR_POR_TITULO -> {
                     String nombreBuscado = ScannerUtils.capturaTexto("Nombre del contenido a buscar: ");
@@ -99,6 +103,18 @@ public class Main {
                     List<Pelicula> contenidoPopulares = plataforma.getPopulares(cantidad); //Ordena peliculas de mayor a menor calificacion
                     contenidoPopulares.forEach(contenido -> System.out.println(contenido.obtenerFichaTecnica() + "\n"));
                 }
+                case REPRODUCIR ->  {
+                    //nombre a buscar de pelicula
+                    String nombre = ScannerUtils.capturaTexto("Nombre del contenido a reproducir");
+                    Pelicula contenido = plataforma.buscarPorTitulo(nombre); //Para buscar la pelicula
+
+                    if(contenido != null) { //controlar que la pelicula existe
+                        plataforma.reproducir(contenido); //si existe la reproduce
+                    } else {
+                        System.out.println(nombre + " no existe");
+                        //si no existe muestra nombre de pelicua a buscar + mensaje
+                    }
+                     }
 
                 case ELIMINAR -> {
                     String nombreAEliminar = ScannerUtils.capturaTexto("Nombre del contenido a buscar: \n");

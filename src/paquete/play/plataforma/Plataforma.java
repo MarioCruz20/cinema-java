@@ -1,21 +1,24 @@
 package paquete.play.plataforma;
 
 import paquete.play.contenido.Pelicula;
+import paquete.play.contenido.ResumenContenido;
 import paquete.play.excepcion.PeliculaExistenteException;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+
+import static java.util.stream.Collectors.toList;
 
 public class Plataforma {
     private String nombre;
     private List<Pelicula> contenido; //Relacion por Agregacion
+    private Map<Pelicula, Integer> visualizaciones; //Map que recibe <Key, Value>
 
     //Constructor que recibe el nombre
     public Plataforma(String nombre) {
         this.nombre = nombre;
         //Inicializar contenido, y como inicializar 1 lista
         this.contenido = new ArrayList<>();
+        this.visualizaciones = new HashMap<>();
     }
 
     //metodo que no retorne nada
@@ -30,12 +33,39 @@ public class Plataforma {
         this.contenido.add(elemento);
     }
 
+    //Metodo para controlar cuantas visualizaciones ha tenido una pelicula
+    public void reproducir(Pelicula contenido) {
+        int conteoActual = visualizaciones.getOrDefault(contenido, 0);
+        System.out.println(contenido.getTitulo() + " ha sido reproducido " + conteoActual + " veces.");
+        // .put para poner clave dentro del map,
+        // enviando Key(pelicula conteo y conteo actual + 1)
+        this.contarVisualiacion(contenido);
+        contenido.reproducir();
+    }
+
+    //Metodo auxiliar que solo funcione en Plataforma.java
+    public void contarVisualiacion(Pelicula contenido) {
+        int conteoActual = visualizaciones.getOrDefault(contenido, 0);
+        visualizaciones.put(contenido, conteoActual + 1);
+
+    }
+
+
     //Lista de strings
     public List<String>getTitulos() {
         return contenido.stream() //retornar lista de titulos
                 //Tranforma una lista en un objeto distinto
                 .map(Pelicula::getTitulo)
                 .toList();
+    }
+
+    //Para retornar lista de resumenes de contenido
+    public List<ResumenContenido> getResumenes() {
+       return contenido.stream()
+               .map(c -> new ResumenContenido(c.getTitulo(), c.getDuracion(), c.getGenero()))
+               .toList();
+       //Se crea un nuevo resumen de contenido con titulo, duracion y genero
+        //toList() lo agrega a una lista para retornarla
     }
 
     //metodo para eliminar peliculas
