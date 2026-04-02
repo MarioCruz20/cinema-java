@@ -6,8 +6,14 @@ import paquete.play.excepcion.PeliculaExistenteException;
 import paquete.play.plataforma.Genero;
 import paquete.play.plataforma.Plataforma;
 import paquete.play.plataforma.Usuario;
+import paquete.play.util.FileUtils;
 import paquete.play.util.ScannerUtils;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
@@ -132,16 +138,10 @@ public class Main {
         }
     }
 
-    private static void cargarPeliculas(Plataforma plataforma) {
-        plataforma.agregar(new Pelicula("Shrek", 90, Genero.ANIMADA, 2.3)); //Cambio de genero por enum Genero
-        plataforma.agregar(new Pelicula("Incepcion", 148, Genero.CIENCIA_FICCION,4));
-        plataforma.agregar(new Pelicula("Titanic", 195, Genero.DRAMA,1));
-        plataforma.agregar(new Pelicula("John Wick", 101, Genero.ACCION,5));
-        plataforma.agregar(new Pelicula("Coco", 105, Genero.ANIMADA,3.5));
-        plataforma.agregar(new Pelicula("Piratas del Caribe", 120, Genero.ACCION,3.4));
-        plataforma.agregar(new Pelicula("Star Wars", 110, Genero.CIENCIA_FICCION,4.2));
-        plataforma.agregar(new Pelicula("Avengers", 140, Genero.ACCION,3));
-        plataforma.agregar(new Pelicula("Pulp Fiction", 124, Genero.ACCION,2.2));
-        plataforma.agregar(new Pelicula("Batman", 105, Genero.ACCION,3.7));
+    private static void cargarPeliculas(Plataforma plataforma) { //Nueva forma de cargar las peliculas
+
+        //Al iniciar el programa en Main y cuando se llama a cargarPeliculas
+        //Se muestra el listado de peliculas linea por linea de contenido.txt
+        plataforma.getContenido().addAll(FileUtils.leerContenido());
     }
 }
