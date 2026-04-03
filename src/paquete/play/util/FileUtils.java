@@ -6,6 +6,7 @@ import paquete.play.plataforma.Genero;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,27 @@ public class FileUtils {
     public static final String NOMBRE_ARCHIVO = "contenido.txt";
     public static final String SEPARADOR = "|";
 
+
+    //Como convertir
+    public static void escribirContenido(Pelicula contenido) {
+        String linea = String.join(SEPARADOR,
+                contenido.getTitulo(),
+                String.valueOf(contenido.getDuracion()), //Por ser numero se pasa a string
+                contenido.getGenero().name(),
+                String.valueOf(contenido.getCalificacion()),
+                contenido.getFechaEstreno().toString()
+        );
+
+        try {
+            Files.writeString(Paths.get(NOMBRE_ARCHIVO), //abre el path donde se quiere escribir la pelicula
+                    linea + System.lineSeparator(), //Para agregar ENTER despues de cada linea
+                    StandardOpenOption.CREATE, //si el archivo no existe lo crea
+                    StandardOpenOption.APPEND //manda el contenido al final de la lista
+            );
+        } catch (IOException e) {
+            System.out.println("Error escribiendo al archivo. " + e.getMessage());
+    }
+    }
 
     public static List<Pelicula> leerContenido() {
         //Crear lista vacia de peliculas e inicializar con new ArrayList

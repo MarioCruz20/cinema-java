@@ -3,6 +3,7 @@ package paquete.play.plataforma;
 import paquete.play.contenido.Pelicula;
 import paquete.play.contenido.ResumenContenido;
 import paquete.play.excepcion.PeliculaExistenteException;
+import paquete.play.util.FileUtils;
 
 import java.util.*;
 
@@ -30,6 +31,7 @@ public class Plataforma {
             //throw para lanzar la excepcion si la pelicula YA EXISTE
         }//si la excepcion ocurre no se crea el contenido
 
+        FileUtils.escribirContenido(elemento);
         this.contenido.add(elemento);
     }
 
