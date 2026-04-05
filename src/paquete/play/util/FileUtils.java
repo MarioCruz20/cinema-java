@@ -1,6 +1,6 @@
 package paquete.play.util;
 
-import paquete.play.contenido.Pelicula;
+import paquete.play.contenido.Contenido;
 import paquete.play.plataforma.Genero;
 
 import java.io.IOException;
@@ -20,8 +20,8 @@ public class FileUtils {
     public static final String SEPARADOR = "|";
 
 
-    //Como convertir
-    public static void escribirContenido(Pelicula contenido) {
+    //Como convertir texto capturado para escribir un nuevo contenido dentro del archivo plano
+    public static void escribirContenido(Contenido contenido) {
         String linea = String.join(SEPARADOR,
                 contenido.getTitulo(),
                 String.valueOf(contenido.getDuracion()), //Por ser numero se pasa a string
@@ -41,9 +41,9 @@ public class FileUtils {
     }
     }
 
-    public static List<Pelicula> leerContenido() {
+    public static List<Contenido> leerContenido() {
         //Crear lista vacia de peliculas e inicializar con new ArrayList
-        List<Pelicula> contenidoDesdeArchivo = new ArrayList<>();
+        List<Contenido> contenidoDesdeArchivo = new ArrayList<>();
 
         try {
             //Como leer un archivo plano (Proyecto Java>contenido.txt):
@@ -65,11 +65,11 @@ public class FileUtils {
                     //Double.parseDouble(datos[3])
                     LocalDate fechaEstreno = LocalDate.parse(datos[4]);
 
-                    //Instanciar pelicula y fecha de estreno
-                    Pelicula pelicula = new Pelicula(titulo, duracion, genero, calificacion);
-                    pelicula.setFechaEstreno(fechaEstreno);
+                    //Instanciar contenido y fecha de estreno
+                    Contenido contenido = new Contenido(titulo, duracion, genero, calificacion);
+                    contenido.setFechaEstreno(fechaEstreno);
 
-                    contenidoDesdeArchivo.add(pelicula); //agrega pelicula
+                    contenidoDesdeArchivo.add(contenido); //agrega contenido
                 }
             });
         } catch(IOException e) {

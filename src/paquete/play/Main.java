@@ -1,21 +1,16 @@
 package paquete.play;
 
+import paquete.play.contenido.Contenido;
+import paquete.play.contenido.Documental;
 import paquete.play.contenido.Pelicula;
 import paquete.play.contenido.ResumenContenido;
 import paquete.play.excepcion.PeliculaExistenteException;
 import paquete.play.plataforma.Genero;
 import paquete.play.plataforma.Plataforma;
-import paquete.play.plataforma.Usuario;
 import paquete.play.util.FileUtils;
 import paquete.play.util.ScannerUtils;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Scanner;
 
 public class Main {
 
@@ -66,15 +61,23 @@ public class Main {
             switch (opcionElegida) {
                 case AGREGAR -> {
                     String nombre = ScannerUtils.capturaTexto("Nombre del contenido");
+                    int tipoDeContenido = ScannerUtils.capturarNumero("Que tipo de contenido quieres agregar?\n1. Pelicula\n2. Documental");
                     Genero genero = ScannerUtils.capturarGenero("Genero del contenido");
                     int duracion = ScannerUtils.capturarNumero("Duracion del contenido");
                     double calificacion = ScannerUtils.capturarDecimal("Calificacion del contenido");
 
                     //Intentar agregar la plataforma
                     try {
-                        //Instanciar pelicula importada DE src/paquete.play/contenido/Pelicula.java
-                        // Pelicula(Los valores que recibira ese objeto)
-                        plataforma.agregar(new Pelicula(nombre, duracion, genero, calificacion));
+                        if(tipoDeContenido == 1) {
+                            plataforma.agregar(new Pelicula(nombre, duracion, genero, calificacion));
+                        } else {
+                            String narrador = ScannerUtils. capturaTexto("Narrador del documental"); //preguntar por narrador
+                            plataforma.agregar(new Documental(nombre, duracion, genero, calificacion, narrador)); //lo agrega al constructor
+
+                        }
+                        //Instanciar pelicula importada DE src/paquete.play/contenido/Contenido.java
+                        // Contenido(Los valores que recibira ese objeto)
+                        plataforma.agregar(new Contenido(nombre, duracion, genero, calificacion));
 
                     } catch(PeliculaExistenteException e) { //si no se pudo agregar plataforma
                         System.out.println(e.getMessage()); //se captura la excepcion y retorna mensaje de la excepcion
@@ -87,7 +90,7 @@ public class Main {
                 }
                 case BUSCAR_POR_TITULO -> {
                     String nombreBuscado = ScannerUtils.capturaTexto("Nombre del contenido a buscar: ");
-                    Pelicula pelicula = plataforma.buscarPorTitulo(nombreBuscado);
+                    Contenido pelicula = plataforma.buscarPorTitulo(nombreBuscado);
 
                     if (pelicula != null) {
                         System.out.println(pelicula.obtenerFichaTecnica());
@@ -100,19 +103,19 @@ public class Main {
                     Genero generoBuscado = ScannerUtils.capturarGenero("Genero del contenido a buscar");
 
                     //Lista de peliculas
-                    List<Pelicula> contenidoPorGenero = plataforma.buscarPorGenero(generoBuscado);
+                    List<Contenido> contenidoPorGenero = plataforma.buscarPorGenero(generoBuscado);
                     contenidoPorGenero.forEach(contenido -> System.out.println(contenido.obtenerFichaTecnica() + "\n"));
                 }
                 case VER_POPULARES -> { //Devuelve lista de peliculas ordenadas por calificacion
                     //captura cantidad y la manda a getPopulares y la aplica como limite de cuantas peliculas mostrar
                     int cantidad = ScannerUtils.capturarNumero("Cantidad de resultados a mostrar");
-                    List<Pelicula> contenidoPopulares = plataforma.getPopulares(cantidad); //Ordena peliculas de mayor a menor calificacion
+                    List<Contenido> contenidoPopulares = plataforma.getPopulares(cantidad); //Ordena peliculas de mayor a menor calificacion
                     contenidoPopulares.forEach(contenido -> System.out.println(contenido.obtenerFichaTecnica() + "\n"));
                 }
                 case REPRODUCIR ->  {
                     //nombre a buscar de pelicula
                     String nombre = ScannerUtils.capturaTexto("Nombre del contenido a reproducir");
-                    Pelicula contenido = plataforma.buscarPorTitulo(nombre); //Para buscar la pelicula
+                    Contenido contenido = plataforma.buscarPorTitulo(nombre); //Para buscar la pelicula
 
                     if(contenido != null) { //controlar que la pelicula existe
                         plataforma.reproducir(contenido); //si existe la reproduce
@@ -124,7 +127,7 @@ public class Main {
 
                 case ELIMINAR -> {
                     String nombreAEliminar = ScannerUtils.capturaTexto("Nombre del contenido a buscar: \n");
-                    Pelicula contenido = plataforma.buscarPorTitulo(nombreAEliminar);
+                    Contenido contenido = plataforma.buscarPorTitulo(nombreAEliminar);
 
                     if (contenido != null) {
                         plataforma.eliminar(contenido);
