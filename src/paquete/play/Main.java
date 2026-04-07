@@ -79,7 +79,9 @@ public class Main {
                         }
                         //Instanciar pelicula importada DE src/paquete.play/contenido/Contenido.java
                         // Contenido(Los valores que recibira ese objeto)
-                        plataforma.agregar(new Contenido(nombre, duracion, genero, calificacion));
+
+                        //Se comenta porque contenido es clase abstracta y no puede ser inicializada
+                        //plataforma.agregar(new Contenido(nombre, duracion, genero, calificacion));
 
                     } catch(PeliculaExistenteException e) { //si no se pudo agregar plataforma
                         System.out.println(e.getMessage()); //se captura la excepcion y retorna mensaje de la excepcion

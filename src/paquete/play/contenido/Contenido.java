@@ -5,7 +5,7 @@ import paquete.play.plataforma.Genero;
 import java.time.LocalDate;
 
 //Declaración de la clase junto a sus atributos y metodos
-public class Contenido {
+public abstract class Contenido {
     private String titulo;
     private String descripcion;
     private int duracion;
@@ -36,9 +36,7 @@ public class Contenido {
     }
 
     //Metodo para reproducir pelicula con un mensaje + el nombre de la pelicula
-    public void reproducir() {
-        System.out.println("Reproduciendo " + titulo);
-    }
+    public abstract void reproducir();
 
     //Metodo que retorna informacion de la pelicula
     public String obtenerFichaTecnica() {

@@ -9,4 +9,11 @@ public class Pelicula extends Contenido{
     public Pelicula(String titulo, int duracion, Genero genero, double calificacion) {
         super(titulo, duracion, genero, calificacion);
     }
+
+    //es para sobrescribir un metodo de la clase padre
+    @Override
+    public void reproducir() {
+        System.out.printf("Reproduciendo la pelicula " + getTitulo() + "\n");
+
+    }
 }
