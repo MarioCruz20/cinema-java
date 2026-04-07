@@ -1,6 +1,8 @@
 package paquete.play.plataforma;
 
 import paquete.play.contenido.Contenido;
+import paquete.play.contenido.Documental;
+import paquete.play.contenido.Pelicula;
 import paquete.play.contenido.ResumenContenido;
 import paquete.play.excepcion.PeliculaExistenteException;
 import paquete.play.util.FileUtils;
@@ -100,6 +102,22 @@ public class Plataforma {
         return contenido.stream()
                 .sorted(Comparator.comparingDouble(Contenido::getCalificacion).reversed())
                 .limit(cantidad)
+                .toList();
+    }
+
+    //Lista de peliculas para filtrarlas
+    public List<Pelicula> getPeliculas() {
+        return contenido.stream()
+                .filter(contenido -> contenido instanceof Pelicula)
+                .map(contenidoFiltrado -> (Pelicula) contenidoFiltrado)
+                .toList();
+    }
+
+    //Lista de documentales para filtrarlos
+    public List<Documental> getDocumental() {
+        return contenido.stream()
+                .filter(contenido -> contenido instanceof Documental)
+                .map(contenidoFiltrado -> (Documental) contenidoFiltrado)
                 .toList();
     }
 
