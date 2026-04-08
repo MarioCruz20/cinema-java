@@ -38,6 +38,10 @@ public class Main {
         cargarPeliculas(plataforma);
 
         System.out.println("Más de " + plataforma.getDuracionTotal() + " minutos de contenido! \n");
+
+        //Mostrar mensaje de contenido promocional(documentales, por ahora)
+        plataforma.getContenidoPromocionable(). forEach(promocionales -> System.out.println(promocionales.promocionar()));
+
         //while true hace que el loop se ejecute
         //de manera infinita hasta que el usuario
         //salga del sistema

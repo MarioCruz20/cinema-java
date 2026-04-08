@@ -1,9 +1,6 @@
 package paquete.play.plataforma;
 
-import paquete.play.contenido.Contenido;
-import paquete.play.contenido.Documental;
-import paquete.play.contenido.Pelicula;
-import paquete.play.contenido.ResumenContenido;
+import paquete.play.contenido.*;
 import paquete.play.excepcion.PeliculaExistenteException;
 import paquete.play.util.FileUtils;
 
@@ -118,6 +115,14 @@ public class Plataforma {
         return contenido.stream()
                 .filter(contenido -> contenido instanceof Documental)
                 .map(contenidoFiltrado -> (Documental) contenidoFiltrado)
+                .toList();
+    }
+
+    //Retornar una lista de promocionales
+    public List<Promocionales> getContenidoPromocionable() {
+        return contenido.stream()
+                .filter(contenido -> contenido instanceof Promocionales) //filtrar solo contenidos promocionales
+                .map(contenidoProm -> (Promocionales) contenidoProm) //castear a Promocionales
                 .toList();
     }
 

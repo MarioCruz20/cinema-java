@@ -2,7 +2,7 @@ package paquete.play.contenido;
 
 import paquete.play.plataforma.Genero;
 
-public class Documental extends Contenido{
+public class Documental extends Contenido implements Promocionales{
     private String narrador; //atributo unico de Documental
 
     public Documental(String titulo, int duracion, Genero genero) {
@@ -20,6 +20,12 @@ public class Documental extends Contenido{
         System.out.println("Reproduciendo documental " + getTitulo() + " narrado por: " + getNarrador() + "\n");
 
     }
+
+    @Override
+    public String promocionar() {
+        return "⭐🌟Descubre el documental " + this.getTitulo() + " narrador por " + narrador + ". Ahora en Cinema Play💫✨";
+    }
+
     public String getNarrador() {
         return narrador;
     }
