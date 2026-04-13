@@ -4,6 +4,9 @@ import paquete.play.contenido.Contenido;
 import paquete.play.contenido.Documental;
 import paquete.play.contenido.Pelicula;
 import paquete.play.contenido.ResumenContenido;
+import paquete.play.dao.ContenidoDAO;
+import paquete.play.dao.DocumentalDAO;
+import paquete.play.dao.PeliculaDAO;
 import paquete.play.excepcion.PeliculaExistenteException;
 import paquete.play.plataforma.Genero;
 import paquete.play.plataforma.Plataforma;
@@ -80,10 +83,17 @@ public class Main {
                     //Intentar agregar la plataforma
                     try {
                         if(tipoDeContenido == 1) {
-                            plataforma.agregar(new Pelicula(nombre, duracion, genero, calificacion, director));
+                            //antigua forma de añadir peliculas
+                            //plataforma.agregar(new Pelicula(nombre, duracion, genero, calificacion, director));
+
+                            PeliculaDAO peliculaDAO = new PeliculaDAO();
+
                         } else {
                             String narrador = ScannerUtils. capturaTexto("Narrador del documental"); //preguntar por narrador
-                            plataforma.agregar(new Documental(nombre, duracion, genero, calificacion, narrador)); //lo agrega al constructor
+
+                            //antigua forma de añadir documentales
+                            //plataforma.agregar(new Documental(nombre, duracion, genero, calificacion, narrador)); //lo agrega al constructor
+                            DocumentalDAO documentalDAO = new DocumentalDAO();
 
                         }
                         //Instanciar pelicula importada DE src/paquete.play/contenido/Contenido.java
@@ -97,9 +107,14 @@ public class Main {
                     }
                 }
                 case MOSTRAR_TODO -> {
-                    List<ResumenContenido> contenidosResumidos = plataforma.getResumenes();
+
+                    ContenidoDAO contenidoDAO = new ContenidoDAO();
+                    contenidoDAO.listar();
+
+                    //Forma antigua de mostrar todo el contenido leido desde un archivo plano
+                    //List<ResumenContenido> contenidosResumidos = plataforma.getResumenes();
                     //Imprime la lista por cada elemento con todos sus valores
-                    contenidosResumidos.forEach(resumen -> System.out.println(resumen.toString()));
+                    //contenidosResumidos.forEach(resumen -> System.out.println(resumen.toString()));
                 }
                 case BUSCAR_POR_TITULO -> {
                     String nombreBuscado = ScannerUtils.capturaTexto("Nombre del contenido a buscar: ");
