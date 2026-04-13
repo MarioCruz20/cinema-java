@@ -7,10 +7,13 @@ import paquete.play.contenido.ResumenContenido;
 import paquete.play.excepcion.PeliculaExistenteException;
 import paquete.play.plataforma.Genero;
 import paquete.play.plataforma.Plataforma;
+import paquete.play.util.ConexionDB;
 import paquete.play.util.FileUtils;
 import paquete.play.util.ScannerUtils;
 
+import java.sql.Connection;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
 
@@ -60,6 +63,7 @@ public class Main {
                     9. Salir
                     """);
 
+
             //Definir continuacion
             //Mostrar mensaje + la opcion elegida del usuario
             //System.out.println("Opción elegida: " + opcionElegida);
@@ -71,11 +75,12 @@ public class Main {
                     Genero genero = ScannerUtils.capturarGenero("Genero del contenido");
                     int duracion = ScannerUtils.capturarNumero("Duracion del contenido");
                     double calificacion = ScannerUtils.capturarDecimal("Calificacion del contenido");
+                    String director = ScannerUtils.capturaTexto("Nombre del director");
 
                     //Intentar agregar la plataforma
                     try {
                         if(tipoDeContenido == 1) {
-                            plataforma.agregar(new Pelicula(nombre, duracion, genero, calificacion));
+                            plataforma.agregar(new Pelicula(nombre, duracion, genero, calificacion, director));
                         } else {
                             String narrador = ScannerUtils. capturaTexto("Narrador del documental"); //preguntar por narrador
                             plataforma.agregar(new Documental(nombre, duracion, genero, calificacion, narrador)); //lo agrega al constructor
@@ -171,3 +176,4 @@ public class Main {
         plataforma.getContenido().addAll(FileUtils.leerContenido());
     }
 }
+

@@ -68,7 +68,7 @@ public class FileUtils {
                 String tipoContenido = datos[0];
 
                 //Validar si es pelicula y tenga 6 campos. Validar si es documental y tenga 7 campos
-                if (("PELICULA".equals(tipoContenido) && datos.length == 6) || ("DOCUMENTAL".equals(tipoContenido) && datos.length == 7)) {
+                if (("PELICULA".equals(tipoContenido) && datos.length == 7) || ("DOCUMENTAL".equals(tipoContenido) && datos.length == 7)) {
                     //Capturar datos
 
                     String titulo = datos[1];
@@ -80,13 +80,14 @@ public class FileUtils {
                     //y SI tiene calificacion se parsea a Double
                     //Double.parseDouble(datos[3])
                     LocalDate fechaEstreno = LocalDate.parse(datos[5]);
+                    String director = datos[6];
 
                     //Instanciar contenido y fecha de estreno
                     Contenido contenido;
 
                     if("PELICULA".equals(tipoContenido)) {
                         //inicializacion de varibale para pelicula
-                        contenido = new Pelicula(titulo, duracion, genero, calificacion);
+                        contenido = new Pelicula(titulo, duracion, genero, calificacion, director);
                     } else {
                         String narrador = datos[6]; //6 en indice de lista porque en esa posicion
                                                     //se encuentra el narrador
