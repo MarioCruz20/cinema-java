@@ -83,9 +83,6 @@ public class Main {
                     //Intentar agregar la plataforma
                     try {
                         if(tipoDeContenido == 1) {
-                            //antigua forma de añadir peliculas
-                            //plataforma.agregar(new Pelicula(nombre, duracion, genero, calificacion, director));
-
                             Pelicula pelicula = new Pelicula(
                                     nombre,
                                     duracion,
@@ -100,30 +97,16 @@ public class Main {
                         } else {
                             String narrador = ScannerUtils. capturaTexto("Narrador del documental"); //preguntar por narrador
 
-                            //antigua forma de añadir documentales
-                            //plataforma.agregar(new Documental(nombre, duracion, genero, calificacion, narrador)); //lo agrega al constructor
                             DocumentalDAO documentalDAO = new DocumentalDAO();
-
                         }
-                        //Instanciar pelicula importada DE src/paquete.play/contenido/Contenido.java
-                        // Contenido(Los valores que recibira ese objeto)
-
-                        //Se comenta porque contenido es clase abstracta y no puede ser inicializada
-                        //plataforma.agregar(new Contenido(nombre, duracion, genero, calificacion));
-
                     } catch(PeliculaExistenteException e) { //si no se pudo agregar plataforma
                         System.out.println(e.getMessage()); //se captura la excepcion y retorna mensaje de la excepcion
                     }
                 }
                 case MOSTRAR_TODO -> {
-
+                    //Imprime la lista por cada elemento con todos sus valores
                     ContenidoDAO contenidoDAO = new ContenidoDAO();
                     contenidoDAO.listar();
-
-                    //Forma antigua de mostrar todo el contenido leido desde un archivo plano
-                    //List<ResumenContenido> contenidosResumidos = plataforma.getResumenes();
-                    //Imprime la lista por cada elemento con todos sus valores
-                    //contenidosResumidos.forEach(resumen -> System.out.println(resumen.toString()));
                 }
                 case BUSCAR_POR_TITULO -> {
                     String nombreBuscado = ScannerUtils.capturaTexto("Nombre del contenido a buscar: ");
@@ -164,14 +147,20 @@ public class Main {
 
                 case BUSCAR_POR_TIPO -> {
                     //Obtener tipo de contenido
-                    int tipoDeContenido = ScannerUtils.capturarNumero("Que tipo de contenido quieres agregar?\n1. Pelicula\n2. Documental");
+                    int tipoDeContenido = ScannerUtils.capturarNumero(
+                            "Que tipo de contenido quieres agregar?\n1. Pelicula\n2. Documental");
+
+                    ContenidoDAO contenidoDAO = new ContenidoDAO();
 
                     if(tipoDeContenido == 1) {
-                        List<Pelicula> peliculas = plataforma.getPeliculas();
-                        peliculas.forEach(pelicula -> System.out.println(pelicula.obtenerFichaTecnica() + "\n"));
+                        contenidoDAO.buscarPorTipo("Pelicula");
+
+                        //List<Pelicula> peliculas = plataforma.getPeliculas();
+                        //peliculas.forEach(pelicula -> System.out.println(pelicula.obtenerFichaTecnica() + "\n"));
                     } else {
-                        List<Documental> documentales = plataforma.getDocumental();
-                        documentales.forEach(pelicula -> System.out.println(pelicula.obtenerFichaTecnica() + "\n"));
+                        contenidoDAO.buscarPorTipo("Documental");
+                        //List<Documental> documentales = plataforma.getDocumental();
+                        //documentales.forEach(pelicula -> System.out.println(pelicula.obtenerFichaTecnica() + "\n"));
 
                     }
 
