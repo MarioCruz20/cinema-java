@@ -9,7 +9,7 @@ public class PeliculaDAO {
 
     public void guardar(Pelicula pelicula) {
 
-        String sqlContenido = "INSERT INTO Contenido (titulo, genero, duracion, tipo, popularidad) VALUES (?, ?, ?, ?, ?)";
+        String sqlContenido = "INSERT INTO Contenido (titulo, genero, duracion, tipo, calificacion) VALUES (?, ?, ?, ?, ?)";
         String sqlPelicula = "INSERT INTO Pelicula (contenidoID, director) VALUES (?, ?)";
 
         try (Connection conn = ConexionDB.conectar()) {

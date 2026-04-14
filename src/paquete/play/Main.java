@@ -75,8 +75,8 @@ public class Main {
                 case AGREGAR -> {
                     String nombre = ScannerUtils.capturaTexto("Nombre del contenido");
                     int tipoDeContenido = ScannerUtils.capturarNumero("Que tipo de contenido quieres agregar?\n1. Pelicula\n2. Documental");
-                    Genero genero = ScannerUtils.capturarGenero("Genero del contenido");
                     int duracion = ScannerUtils.capturarNumero("Duracion del contenido");
+                    Genero genero = ScannerUtils.capturarGenero("Genero del contenido");
                     double calificacion = ScannerUtils.capturarDecimal("Calificacion del contenido");
                     String director = ScannerUtils.capturaTexto("Nombre del director");
 
@@ -86,7 +86,16 @@ public class Main {
                             //antigua forma de añadir peliculas
                             //plataforma.agregar(new Pelicula(nombre, duracion, genero, calificacion, director));
 
+                            Pelicula pelicula = new Pelicula(
+                                    nombre,
+                                    duracion,
+                                    genero,
+                                    calificacion,
+                                    director
+                            );
+
                             PeliculaDAO peliculaDAO = new PeliculaDAO();
+                            peliculaDAO.guardar(pelicula);
 
                         } else {
                             String narrador = ScannerUtils. capturaTexto("Narrador del documental"); //preguntar por narrador
