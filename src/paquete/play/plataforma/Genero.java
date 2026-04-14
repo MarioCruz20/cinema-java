@@ -6,5 +6,10 @@ public enum Genero {
     DRAMA,
     ANIMADA,
     TERROR,
-    CIENCIA_FICCION;
+    CIENCIA_FICCION,
+    CIENTIFICO,
+    NATURAL,
+    SOCIAL,
+    HISTORICO,
+    BIOGRAFIA;
 }
