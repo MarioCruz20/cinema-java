@@ -97,7 +97,19 @@ public class Main {
                         } else {
                             String narrador = ScannerUtils. capturaTexto("Narrador del documental"); //preguntar por narrador
 
+                            Documental documental = new Documental(
+                                    nombre,
+                                    duracion,
+                                    genero,
+                                    calificacion,
+                                    director,
+                                    narrador
+                            );
+
+
                             DocumentalDAO documentalDAO = new DocumentalDAO();
+                            documentalDAO.guardar(documental);
+
                         }
                     } catch(PeliculaExistenteException e) { //si no se pudo agregar plataforma
                         System.out.println(e.getMessage()); //se captura la excepcion y retorna mensaje de la excepcion

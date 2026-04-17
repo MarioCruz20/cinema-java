@@ -11,7 +11,7 @@ public class DocumentalDAO {
     public void guardar(Documental documental) {
 
         String sqlContenido = "INSERT INTO Contenido (titulo, genero, duracion, tipo, calificacion) VALUES (?, ?, ?, ?, ?)";
-        String sqlPelicula = "INSERT INTO Documental (contenidoID, director) VALUES (?, ?)";
+        String sqlDocumental = "INSERT INTO Documental (contenidoID, director, narrador) VALUES (?, ?, ?)";
 
         try (Connection conn = ConexionDB.conectar()) {
 
@@ -35,10 +35,10 @@ public class DocumentalDAO {
             }
 
             // 3. Insertar en Documental
-            PreparedStatement stmtDocumental = conn.prepareStatement(sqlPelicula);
+            PreparedStatement stmtDocumental = conn.prepareStatement(sqlDocumental);
             stmtDocumental.setInt(1, contenidoID);
             stmtDocumental.setString(2, documental.getDirector());
-            stmtDocumental.setString(2, documental.getNarrador());
+            stmtDocumental.setString(3, documental.getNarrador());
 
             stmtDocumental.executeUpdate();
 
