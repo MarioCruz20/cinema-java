@@ -4,15 +4,17 @@ import paquete.play.plataforma.Genero;
 
 public class Documental extends Contenido implements Promocionales{
     private String narrador; //atributo unico de Documental
-
+    private String director;
     public Documental(String titulo, int duracion, Genero genero) {
         super(titulo, duracion, genero);
     }
 
-    public Documental(String titulo, int duracion, Genero genero, double calificacion, String narrador) {
+    public Documental(String titulo, int duracion, Genero genero, double calificacion, String director, String narrador) {
         super(titulo, duracion, genero, calificacion);
+        this.director = director;
         this.narrador = narrador; //Inicializar atributo unico de Documental
                                   //despues del super
+
     }
 
     @Override
@@ -24,6 +26,10 @@ public class Documental extends Contenido implements Promocionales{
     @Override
     public String promocionar() {
         return "⭐🌟Descubre el documental " + this.getTitulo() + " narrador por " + narrador + ". Ahora en Cinema Play💫✨";
+    }
+
+    public String getDirector() {
+        return director;
     }
 
     public String getNarrador() {

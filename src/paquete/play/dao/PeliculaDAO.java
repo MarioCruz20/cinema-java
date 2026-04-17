@@ -40,7 +40,7 @@ public class PeliculaDAO {
 
             stmtPelicula.executeUpdate();
 
-            System.out.println("Pelicula guardada en BD 🎬");
+            System.out.println("Pelicula guardada en BD");
 
         } catch (SQLException e) {
             e.printStackTrace();

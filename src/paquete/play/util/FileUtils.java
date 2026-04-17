@@ -92,7 +92,7 @@ public class FileUtils {
                         String narrador = datos[6]; //6 en indice de lista porque en esa posicion
                                                     //se encuentra el narrador
                         //inicializacion para documental
-                        contenido = new Documental(titulo,duracion,genero,calificacion,narrador);
+                        contenido = new Documental(titulo,duracion,genero,calificacion,director, narrador);
                     }
                     contenido.setFechaEstreno(fechaEstreno);
 
