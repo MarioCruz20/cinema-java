@@ -122,13 +122,17 @@ public class Main {
                 }
                 case BUSCAR_POR_TITULO -> {
                     String nombreBuscado = ScannerUtils.capturaTexto("Nombre del contenido a buscar: ");
-                    Contenido pelicula = plataforma.buscarPorTitulo(nombreBuscado);
 
-                    if (pelicula != null) {
-                        System.out.println(pelicula.obtenerFichaTecnica());
-                    } else {
-                        System.out.println(nombreBuscado + " no existe dentro de " + plataforma);
-                    }
+                    ContenidoDAO contenidoDAO = new ContenidoDAO();
+                    contenidoDAO.buscarPorTitulo(nombreBuscado);
+
+                    //Contenido pelicula = plataforma.buscarPorTitulo(nombreBuscado);
+
+                    //if (pelicula != null) {
+                      //  System.out.println(pelicula.obtenerFichaTecnica());
+                    //} else {
+                      //  System.out.println(nombreBuscado + " no existe dentro de " + plataforma);
+                    //}
                 }
                 case BUSCAR_POR_GENERO -> {
                     //Para permitir a usuario ingresar genero a buscar

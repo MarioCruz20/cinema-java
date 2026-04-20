@@ -42,7 +42,7 @@ public class DocumentalDAO {
 
             stmtDocumental.executeUpdate();
 
-            System.out.println("Documental guardado en BD");
+            System.out.println("Documental guardado");
 
         } catch (SQLException e) {
             e.printStackTrace();

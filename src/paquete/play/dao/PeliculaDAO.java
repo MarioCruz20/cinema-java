@@ -21,11 +21,11 @@ public class PeliculaDAO {
             stmtContenido.setString(2, pelicula.getGenero().toString());
             stmtContenido.setInt(3, pelicula.getDuracion());
             stmtContenido.setString(4, "Pelicula");
-            stmtContenido.setDouble(5,  pelicula.getCalificacion());
+            stmtContenido.setDouble(5, pelicula.getCalificacion());
 
             stmtContenido.executeUpdate();
 
-            // 2. Obtener ID generado
+            // 2. Obtener ID
             ResultSet rs = stmtContenido.getGeneratedKeys();
             int contenidoID = 0;
 
@@ -35,12 +35,13 @@ public class PeliculaDAO {
 
             // 3. Insertar en Pelicula
             PreparedStatement stmtPelicula = conn.prepareStatement(sqlPelicula);
+
             stmtPelicula.setInt(1, contenidoID);
             stmtPelicula.setString(2, pelicula.getDirector());
 
             stmtPelicula.executeUpdate();
 
-            System.out.println("Pelicula guardada en BD");
+            System.out.println("Pelicula guardada");
 
         } catch (SQLException e) {
             e.printStackTrace();

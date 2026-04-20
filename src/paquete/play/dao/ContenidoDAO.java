@@ -35,6 +35,42 @@ public class ContenidoDAO {
         }
     }
 
+    //Método para buscar contenido por título
+    public void buscarPorTitulo(String titulo) {
+
+        String sql = "SELECT * FROM Contenido WHERE titulo LIKE ?";
+
+        try (Connection conn = ConexionDB.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, "%" + titulo + "%");
+
+            ResultSet rs = stmt.executeQuery();
+
+            boolean encontrado = false;
+
+            while (rs.next()) {
+                encontrado = true;
+
+                System.out.println(
+                        rs.getInt("contenidoID") + " - " +
+                                rs.getString("titulo") + " - " +
+                                rs.getString("genero") + " - " +
+                                rs.getInt("duracion") + " - " +
+                                rs.getString("tipo") + " - " +
+                                rs.getDouble("calificacion")
+                );
+            }
+
+            if (!encontrado) {
+                System.out.println("No se encontró contenido con ese título");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     //Metodo para buscar contenido por tipo: pelicula o documental
     public void buscarPorTipo(String tipo) {
         String sql = "SELECT * FROM Contenido WHERE tipo = ?";
