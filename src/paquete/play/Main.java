@@ -136,11 +136,14 @@ public class Main {
                 }
                 case BUSCAR_POR_GENERO -> {
                     //Para permitir a usuario ingresar genero a buscar
-                    Genero generoBuscado = ScannerUtils.capturarGenero("Genero del contenido a buscar");
+                    String generoBuscado = ScannerUtils.capturaTexto("Genero del contenido a buscar");
+
+                    ContenidoDAO contenidoDAO = new ContenidoDAO();
+                    contenidoDAO.buscarPorGenero(generoBuscado);
 
                     //Lista de peliculas
-                    List<Contenido> contenidoPorGenero = plataforma.buscarPorGenero(generoBuscado);
-                    contenidoPorGenero.forEach(contenido -> System.out.println(contenido.obtenerFichaTecnica() + "\n"));
+                    //List<Contenido> contenidoPorGenero = plataforma.buscarPorGenero(generoBuscado);
+                    //contenidoPorGenero.forEach(contenido -> System.out.println(contenido.obtenerFichaTecnica() + "\n"));
                 }
                 case VER_POPULARES -> { //Devuelve lista de peliculas ordenadas por calificacion
                     //captura cantidad y la manda a getPopulares y la aplica como limite de cuantas peliculas mostrar
