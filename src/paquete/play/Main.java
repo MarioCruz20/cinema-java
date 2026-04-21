@@ -148,8 +148,12 @@ public class Main {
                 case VER_POPULARES -> { //Devuelve lista de peliculas ordenadas por calificacion
                     //captura cantidad y la manda a getPopulares y la aplica como limite de cuantas peliculas mostrar
                     int cantidad = ScannerUtils.capturarNumero("Cantidad de resultados a mostrar");
-                    List<Contenido> contenidoPopulares = plataforma.getPopulares(cantidad); //Ordena peliculas de mayor a menor calificacion
-                    contenidoPopulares.forEach(contenido -> System.out.println(contenido.obtenerFichaTecnica() + "\n"));
+
+                    ContenidoDAO contenidoDAO = new ContenidoDAO();
+                    contenidoDAO.verPopulares(cantidad);
+
+                    //List<Contenido> contenidoPopulares = plataforma.getPopulares(cantidad); //Ordena peliculas de mayor a menor calificacion
+                    //contenidoPopulares.forEach(contenido -> System.out.println(contenido.obtenerFichaTecnica() + "\n"));
                 }
                 case REPRODUCIR ->  {
                     //nombre a buscar de pelicula

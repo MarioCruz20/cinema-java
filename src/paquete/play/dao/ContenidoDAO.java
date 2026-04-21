@@ -107,6 +107,27 @@ public class ContenidoDAO {
         }
     }
 
+    //Método para ver contenido filtrado por populares
+    public void verPopulares(int limite) {
+        String sql = "SELECT TOP (?) * FROM Contenido ORDER BY calificacion DESC";
+
+        try (Connection conn = ConexionDB.conectar();
+        PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, limite);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                System.out.println(
+                        rs.getString("titulo") + " - " +
+                                rs.getDouble("calificacion")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     //Metodo para buscar contenido por tipo: pelicula o documental
     public void buscarPorTipo(String tipo) {
         String sql = "SELECT * FROM Contenido WHERE tipo = ?";
