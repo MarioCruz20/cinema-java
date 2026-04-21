@@ -128,6 +128,32 @@ public class ContenidoDAO {
         }
     }
 
+    //Método para eliminar contenido, director y narrador de la base de datos
+    public void eliminar(int id) {
+        String sqlPelicula = "DELETE FROM Pelicula WHERE contenidoID = ?";
+        String sqlDocumental = "DELETE FROM Documental WHERE contenidoID = ?";
+        String sqlContenido = "DELETE FROM Contenido WHERE contenidoID = ?";
+
+        try (Connection conn = ConexionDB.conectar()) {
+
+            PreparedStatement stmt1 = conn.prepareStatement(sqlPelicula);
+            stmt1.setInt(1, id);
+            stmt1.executeUpdate();
+
+            PreparedStatement stmt2 = conn.prepareStatement(sqlDocumental);
+            stmt2.setInt(1, id);
+            stmt2.executeUpdate();
+
+            PreparedStatement stmt3 = conn.prepareStatement(sqlContenido);
+            stmt3.setInt(1, id);
+            stmt3.executeUpdate();
+
+            System.out.println("Contenido eliminado");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     //Metodo para buscar contenido por tipo: pelicula o documental
     public void buscarPorTipo(String tipo) {
         String sql = "SELECT * FROM Contenido WHERE tipo = ?";

@@ -190,15 +190,21 @@ public class Main {
                 }
 
                 case ELIMINAR -> {
-                    String nombreAEliminar = ScannerUtils.capturaTexto("Nombre del contenido a buscar: \n");
-                    Contenido contenido = plataforma.buscarPorTitulo(nombreAEliminar);
+                   // String nombreAEliminar = ScannerUtils.capturaTexto("Nombre del contenido a buscar: \n");
+                    //Contenido contenido = plataforma.buscarPorTitulo(nombreAEliminar);
 
-                    if (contenido != null) {
-                        plataforma.eliminar(contenido);
-                        System.out.println(nombreAEliminar + " eliminado!");
-                    } else {
-                        System.out.println(nombreAEliminar + " no existe dentro de " + plataforma.getNombre());
-                    }
+                    //Forma 1: Eliminar
+                    int idEliminar = ScannerUtils.capturarNumero("ID del contenido a buscar: \n");
+
+                    ContenidoDAO contenidoDAO = new ContenidoDAO();
+                    contenidoDAO.eliminar(idEliminar);
+
+                    //if (contenido != null) {
+                    //    plataforma.eliminar(contenido);
+                    //    System.out.println(nombreAEliminar + " eliminado!");
+                    //} else {
+                    //    System.out.println(nombreAEliminar + " no existe dentro de " + plataforma.getNombre());
+                    //}
                 }
                 case SALIR -> System.exit(0);
             }
