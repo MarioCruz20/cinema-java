@@ -156,16 +156,27 @@ public class Main {
                     //contenidoPopulares.forEach(contenido -> System.out.println(contenido.obtenerFichaTecnica() + "\n"));
                 }
                 case REPRODUCIR ->  {
-                    //nombre a buscar de pelicula
-                    String nombre = ScannerUtils.capturaTexto("Nombre del contenido a reproducir");
-                    Contenido contenido = plataforma.buscarPorTitulo(nombre); //Para buscar la pelicula
+                    //Reproducir desde base de datos
+                    ContenidoDAO contenidoDao = new ContenidoDAO();
 
-                    if(contenido != null) { //controlar que la pelicula existe
-                        plataforma.reproducir(contenido); //si existe la reproduce
-                    } else {
-                        System.out.println(nombre + " no existe");
+                    //Muestra lista de contenido primero
+                    contenidoDao.listar();
+
+                    int id = ScannerUtils.capturarNumero("Ingresa el ID del contenido a reproducir");
+
+                    contenidoDao.reproducir(id);
+
+
+                    //nombre a buscar de pelicula
+                    //String nombre = ScannerUtils.capturaTexto("Nombre del contenido a reproducir");
+                    //Contenido contenido = plataforma.buscarPorTitulo(nombre); //Para buscar la pelicula
+
+                    //if(contenido != null) { //controlar que la pelicula existe
+                      //  plataforma.reproducir(contenido); //si existe la reproduce
+                    //} else {
+                     //   System.out.println(nombre + " no existe");
                         //si no existe muestra nombre de pelicua a buscar + mensaje
-                    }
+                    //}
                 }
 
                 case BUSCAR_POR_TIPO -> {

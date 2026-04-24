@@ -154,6 +154,31 @@ public class ContenidoDAO {
         }
     }
 
+    //Método para reproducir contenido
+    public  void reproducir (int id) {
+
+        String sql = "SELECT * FROM Contenido WHERE contenidoID = ?";
+
+        try (Connection conn = ConexionDB.conectar();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                String titulo = rs.getString("titulo");
+                String tipo = rs.getString("tipo");
+
+                System.out.println("Reproduciendo " + tipo + ": " + titulo + "\n");
+            } else {
+                System.out.println("No se encontro contenido con ese titulo");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     //Metodo para buscar contenido por tipo: pelicula o documental
     public void buscarPorTipo(String tipo) {
         String sql = "SELECT * FROM Contenido WHERE tipo = ?";
