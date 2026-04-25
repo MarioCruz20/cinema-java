@@ -5,11 +5,23 @@ Permite al usuario interactuar mediante un menú en consola para gestionar pelí
 
 ---
 
+## Tecnologías
+
+- Java SE  
+- JavaFX (Interfaz gráfica)  
+- JDBC (Conexión a base de datos)  
+- SQL Server  
+- IntelliJ IDEA  
+
+---
+
 ## Requisitos
 
-- Java JDK 8 o superior  
+- Java JDK 8 o superior (recomendado JDK 17+)  
 - SQL Server  
 - SQL Server Management Studio (SSMS)  
+- JavaFX SDK  
+- Driver JDBC para SQL Server   
 
 ---
 
@@ -45,7 +57,28 @@ La base de datos quedará lista con toda su estructura y datos.
 
 ---
 
-##  Configuración de conexión en Java
+## Configuración JDBC (Conexión a SQL Server)
+
+### 1. Descargar Driver JDBC
+
+- Descargar el .zip desde:
+  https://learn.microsoft.com/sql/connect/jdbc/download-microsoft-jdbc-driver-for-sql-server
+
+- Descomprime el .zip y pegalo en el disco C:
+
+
+### 2. Agregar el .jar al proyecto
+
+En IntelliJ:
+
+File > Project Structure > Libraries > +
+
+Seleccionar el .jar en la carpeta que descomprimiste, seleccionando el .jar:
+
+C:\sqljdbc_13.4\enu\jars\mssql-jdbc-xx.x.x.jre8.jar
+
+
+### 3. Configuración de conexión en Java
 
 Asegúrate de configurar correctamente la conexión en el proyecto en paquete.play > util > ConexionDB.java:
 
