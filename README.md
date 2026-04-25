@@ -121,13 +121,17 @@ Ir a:
 
 Modify options > Add VM options
 
+<img width="1183" height="688" alt="image" src="https://github.com/user-attachments/assets/6edbf657-587d-43ad-af64-e24ca332a833" />
+
 Pegar en el cuadro nuevo de VM options:
 
 --module-path "C:\javafx-sdk-26.0.1\lib" --add-modules javafx.controls,javafx.fxml --enable-native-access=javafx.graphics
 
-<img width="1183" height="688" alt="image" src="https://github.com/user-attachments/assets/6edbf657-587d-43ad-af64-e24ca332a833" />
+Deberia quedar así:
 
-Has clic en Apply > Ok
+<img width="1141" height="880" alt="image" src="https://github.com/user-attachments/assets/bab52fa3-5a3d-4095-8011-870806bc03af" />
+
+Has clic en Apply > Ok y cerrar esa ventana
 
 Arriba cambiar Main por JavaFX y hacer clic en Run:
 
