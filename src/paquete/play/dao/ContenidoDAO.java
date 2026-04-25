@@ -10,7 +10,9 @@ import java.sql.SQLException;
 public class ContenidoDAO {
 
     //Metodo para mostrar de tabla "contenido"
-    public void listar() {
+    public String listar() {
+
+        StringBuilder resultado = new StringBuilder();
 
         String sql = "SELECT * FROM Contenido";
 
@@ -19,20 +21,21 @@ public class ContenidoDAO {
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                System.out.println( //Imprime en un sout la informacion de la tabla "Contenido"
+                resultado.append(
                         rs.getInt("contenidoID") + " - " +
                                 rs.getString("titulo") + " - " +
                                 rs.getString("genero") + " - " +
                                 rs.getInt("duracion") + " - " +
                                 rs.getString("tipo") + " - " +
-                                rs.getDouble("calificacion")
+                                rs.getDouble("calificacion") + "\n"
                 );
-
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return resultado.toString();
     }
 
     //Método para buscar contenido por título
