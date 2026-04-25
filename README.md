@@ -86,5 +86,19 @@ Asegúrate de configurar correctamente la conexión en el proyecto en paquete.pl
 private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=Cinema_Star;encrypt=false";
 private static final String USER = "tu_usuario"; 
 private static final String PASSWORD = "tu_contrasena";
+```
 
+---
+
+## Configuración de JavaFX
+
+### 1. Descargar JavaFX SDK
+
+https://www.oracle.com/java/technologies/downloads/javafx/#javafx26-windows
+
+### 2. Agregar JavaFX al proyecto
+
+En IntelliJ:
+
+File → Project Structure → Libraries → + 
 
