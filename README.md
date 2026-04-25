@@ -100,5 +100,43 @@ https://www.oracle.com/java/technologies/downloads/javafx/#javafx26-windows
 
 En IntelliJ:
 
-File → Project Structure → Libraries → + 
+File > Project Structure > Libraries > + 
+
+Seleccionar la carpeta:
+
+javafx-sdk-XX/lib
+
+Debe verse como en la imagen:
+<img width="1575" height="544" alt="image" src="https://github.com/user-attachments/assets/cb74eca8-c5e9-4533-8003-35dd260019d8" />
+
+### 3. 3. Configurar VM Options
+
+Ir a:
+
+Run → Edit Configurations > + (Add new configuration)
+
+<img width="449" height="136" alt="image" src="https://github.com/user-attachments/assets/12b632ca-dbed-4acc-bcdd-65b2bbb14ea5" />
+
+Ir a:
+
+Modify options > Add VM options
+
+Pegar en el cuadro nuevo de VM options:
+
+--module-path "C:\javafx-sdk-26.0.1\lib" --add-modules javafx.controls,javafx.fxml --enable-native-access=javafx.graphics
+
+<img width="1183" height="688" alt="image" src="https://github.com/user-attachments/assets/6edbf657-587d-43ad-af64-e24ca332a833" />
+
+Has clic en Apply > Ok
+
+Arriba cambiar Main por JavaFX y hacer clic en Run:
+
+<img width="593" height="297" alt="image" src="https://github.com/user-attachments/assets/fefcfee5-26a1-44dd-b511-e0200aedb002" />
+
+
+
+
+
+
+
 
