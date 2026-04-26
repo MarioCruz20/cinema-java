@@ -14,9 +14,6 @@ import paquete.play.util.ConexionDB;
 import paquete.play.util.FileUtils;
 import paquete.play.util.ScannerUtils;
 
-//Importaciones de JavaFX
-
-
 import java.sql.Connection;
 import java.util.List;
 import java.util.Scanner;
