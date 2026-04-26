@@ -86,5 +86,61 @@ Asegúrate de configurar correctamente la conexión en el proyecto en paquete.pl
 private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=Cinema_Star;encrypt=false";
 private static final String USER = "tu_usuario"; 
 private static final String PASSWORD = "tu_contrasena";
+```
+
+---
+
+## Configuración de JavaFX
+
+### 1. Descargar JavaFX SDK
+
+https://www.oracle.com/java/technologies/downloads/javafx/#javafx26-windows
+
+### 2. Agregar JavaFX al proyecto
+
+En IntelliJ:
+
+File > Project Structure > Libraries > + 
+
+Seleccionar la carpeta:
+
+javafx-sdk-XX/lib
+
+Debe verse como en la imagen:
+<img width="1575" height="544" alt="image" src="https://github.com/user-attachments/assets/cb74eca8-c5e9-4533-8003-35dd260019d8" />
+
+### 3. 3. Configurar VM Options
+
+Ir a:
+
+Run → Edit Configurations > + (Add new configuration)
+
+<img width="449" height="136" alt="image" src="https://github.com/user-attachments/assets/12b632ca-dbed-4acc-bcdd-65b2bbb14ea5" />
+
+Ir a:
+
+Modify options > Add VM options
+
+<img width="1183" height="688" alt="image" src="https://github.com/user-attachments/assets/6edbf657-587d-43ad-af64-e24ca332a833" />
+
+Pegar en el cuadro nuevo de VM options:
+
+--module-path "C:\javafx-sdk-26.0.1\lib" --add-modules javafx.controls,javafx.fxml --enable-native-access=javafx.graphics
+
+Deberia quedar así:
+
+<img width="1141" height="880" alt="image" src="https://github.com/user-attachments/assets/bab52fa3-5a3d-4095-8011-870806bc03af" />
+
+Has clic en Apply > Ok y cerrar esa ventana
+
+Arriba cambiar Main por JavaFX y hacer clic en Run:
+
+<img width="593" height="297" alt="image" src="https://github.com/user-attachments/assets/fefcfee5-26a1-44dd-b511-e0200aedb002" />
+
+
+
+
+
+
 
 
