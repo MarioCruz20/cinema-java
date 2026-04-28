@@ -1,18 +1,24 @@
 package paquete.play.dao;
 
+import paquete.play.contenido.Contenido;
+import paquete.play.contenido.Documental;
+import paquete.play.contenido.Pelicula;
+import paquete.play.plataforma.Genero;
 import paquete.play.util.ConexionDB;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContenidoDAO {
 
-    //Metodo para mostrar de tabla "contenido"
-    public String listar() {
+    // Método para listar contenido (para TableView)
+    public List<Contenido> listar() {
 
-        StringBuilder resultado = new StringBuilder();
+        List<Contenido> lista = new ArrayList<>();
 
         String sql = "SELECT * FROM Contenido";
 
@@ -21,24 +27,47 @@ public class ContenidoDAO {
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                resultado.append(
-                        rs.getInt("contenidoID") + " - " +
-                                rs.getString("titulo") + " - " +
-                                rs.getString("genero") + " - " +
-                                rs.getInt("duracion") + " - " +
-                                rs.getString("tipo") + " - " +
-                                rs.getDouble("calificacion") + "\n"
-                );
+
+                String titulo = rs.getString("titulo");
+                String generoStr = rs.getString("genero");
+                int duracion = rs.getInt("duracion");
+                double calificacion = rs.getDouble("calificacion");
+                String tipo = rs.getString("tipo");
+
+                Genero genero = Genero.valueOf(generoStr.toUpperCase());
+
+                Contenido contenido;
+
+                if (tipo.equalsIgnoreCase("Pelicula")) {
+                    contenido = new Pelicula(
+                            titulo,
+                            duracion,
+                            genero,
+                            calificacion,
+                            "Desconocido"
+                    );
+                } else {
+                    contenido = new Documental(
+                            titulo,
+                            duracion,
+                            genero,
+                            calificacion,
+                            "Desconocido",
+                            "Desconocido"
+                    );
+                }
+
+                lista.add(contenido);
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return resultado.toString();
+        return lista;
     }
 
-    //Método para buscar contenido por título
+    // Método para buscar contenido por título
     public void buscarPorTitulo(String titulo) {
 
         String sql = "SELECT * FROM Contenido WHERE titulo LIKE ?";
@@ -74,7 +103,7 @@ public class ContenidoDAO {
         }
     }
 
-    //Método para buscar contenido por género
+    // Método para buscar contenido por género
     public void buscarPorGenero(String genero) {
 
         String sql = "SELECT * FROM Contenido WHERE genero LIKE ?";
@@ -82,7 +111,7 @@ public class ContenidoDAO {
         try (Connection conn = ConexionDB.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, "%" + genero.toUpperCase() + "%" );
+            stmt.setString(1, "%" + genero.toUpperCase() + "%");
 
             ResultSet rs = stmt.executeQuery();
 
@@ -110,12 +139,12 @@ public class ContenidoDAO {
         }
     }
 
-    //Método para ver contenido filtrado por populares
+    // Método para ver populares
     public void verPopulares(int limite) {
         String sql = "SELECT TOP (?) * FROM Contenido ORDER BY calificacion DESC";
 
         try (Connection conn = ConexionDB.conectar();
-        PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, limite);
             ResultSet rs = stmt.executeQuery();
@@ -126,12 +155,13 @@ public class ContenidoDAO {
                                 rs.getDouble("calificacion")
                 );
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    //Método para eliminar contenido, director y narrador de la base de datos
+    // Método para eliminar
     public void eliminar(int id) {
         String sqlPelicula = "DELETE FROM Pelicula WHERE contenidoID = ?";
         String sqlDocumental = "DELETE FROM Documental WHERE contenidoID = ?";
@@ -152,18 +182,19 @@ public class ContenidoDAO {
             stmt3.executeUpdate();
 
             System.out.println("Contenido eliminado");
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    //Método para reproducir contenido
-    public  void reproducir (int id) {
+    // Método para reproducir
+    public void reproducir(int id) {
 
         String sql = "SELECT * FROM Contenido WHERE contenidoID = ?";
 
         try (Connection conn = ConexionDB.conectar();
-            PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, id);
 
@@ -175,38 +206,38 @@ public class ContenidoDAO {
 
                 System.out.println("Reproduciendo " + tipo + ": " + titulo + "\n");
             } else {
-                System.out.println("No se encontro contenido con ese titulo");
+                System.out.println("No se encontró contenido");
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    //Metodo para buscar contenido por tipo: pelicula o documental
+    // Método para buscar por tipo
     public void buscarPorTipo(String tipo) {
+
         String sql = "SELECT * FROM Contenido WHERE tipo = ?";
 
-        try(Connection conn = ConexionDB.conectar();
-            PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = ConexionDB.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
             stmt.setString(1, tipo);
 
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                System.out.println( //Imprime la informacion del contenido segun su tipo
-                rs.getInt("contenidoID") + " - " +
-                        rs.getString("titulo") + " - " +
-                        rs.getString("genero") + " - " +
-                        rs.getInt("duracion") + " - " +
-                        rs.getDouble("calificacion")
-                        );
+                System.out.println(
+                        rs.getInt("contenidoID") + " - " +
+                                rs.getString("titulo") + " - " +
+                                rs.getString("genero") + " - " +
+                                rs.getInt("duracion") + " - " +
+                                rs.getDouble("calificacion")
+                );
             }
-        } catch(SQLException e) {
+
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
     }
-
-
 }

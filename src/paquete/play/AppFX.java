@@ -6,12 +6,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import paquete.play.contenido.Contenido;
 import paquete.play.contenido.Documental;
 import paquete.play.contenido.Pelicula;
 import paquete.play.dao.ContenidoDAO;
 import paquete.play.dao.DocumentalDAO;
 import paquete.play.dao.PeliculaDAO;
 import paquete.play.plataforma.Genero;
+
+import java.lang.classfile.constantpool.IntegerEntry;
+import java.util.List;
 
 public class AppFX extends Application {
 
@@ -66,6 +70,36 @@ public class AppFX extends Application {
         TextArea area = new TextArea();
         area.setPrefHeight(400);
 
+        //refactor: cambio para mostrar contenido con una tabla
+        //Para mostrar tabla
+        TableView<Contenido> tabla = new TableView<>();
+
+        //Creación de columnas
+        TableColumn<Contenido, String> colTitulo = new TableColumn<>("Titulo");
+        TableColumn<Contenido, String> colGenero = new TableColumn<>("Genero");
+        TableColumn<Contenido, Integer> colDuracion = new TableColumn<>("Duracion");
+        TableColumn<Contenido, Double> colCalificacion = new TableColumn<>("Calificacion");
+
+        //Contectar columnas con los datos
+        colTitulo.setCellValueFactory(data ->
+                new javafx.beans.property.SimpleStringProperty(data.getValue().getTitulo())
+        );
+
+        colGenero.setCellValueFactory(data ->
+                new javafx.beans.property.SimpleStringProperty(data.getValue().getGenero().toString())
+        );
+
+        colDuracion.setCellValueFactory(data ->
+                new javafx.beans.property.SimpleIntegerProperty(data.getValue().getDuracion()).asObject()
+        );
+
+        colCalificacion.setCellValueFactory(data ->
+                new javafx.beans.property.SimpleDoubleProperty(data.getValue().getCalificacion()).asObject()
+        );
+
+        //Para agregar columnas a la tabla
+        tabla.getColumns().addAll(colTitulo, colGenero, colDuracion, colCalificacion);
+
         HBox botones = new HBox(10, btnMostrar, btnAgregar, btnBuscar, btnEliminar, btnEjemplo);
         botones.setAlignment(Pos.CENTER);
 
@@ -86,14 +120,30 @@ public class AppFX extends Application {
                 btnGuardar
         );
 
-        //4. Eventos (setOnAction)
-        //Acción del botón mostrar contenido
+        //4. Root y Eventos (setOnAction) en Botones
+        //Mostrar elementos en ventana principal
+        VBox root = new VBox(15, tituloCinema, botones, tabla);
+        root.setAlignment(Pos.TOP_CENTER);
+        root.setStyle("-fx-padding: 20;-fx-background-color: white;");
+
+
+        //MOSTRAR CONTENIDO: Acción del botón mostrar contenido
         btnMostrar.setOnAction(e -> {
-            ContenidoDAO dao = new ContenidoDAO();
-            area.setText(dao.listar());
+            List<Contenido> lista = new ContenidoDAO().listar();
+            tabla.getItems().setAll(lista);
+            root.getChildren().setAll(tituloCinema, botones, tabla);
+
+            //ContenidoDAO dao = new ContenidoDAO();
+            //area.setText(dao.listar());
         });
 
-        //Acción del btn guardar
+        //AGREGAR CONTENIDO: Acción del btn agregar contenido
+        btnAgregar.setOnAction(e -> {
+            area.clear();
+            root.getChildren().setAll(tituloCinema, botones, formularioAgregar, area);
+        });
+
+        //AGREGAR CONTENIDO: Acción del btn guardar
         btnGuardar.setOnAction(e -> {
             try {
                 String titulo = txtTitulo.getText();
@@ -138,31 +188,21 @@ public class AppFX extends Application {
             }
         });
 
-        //btn input ---------------
-        btnInput.setOnAction(e -> {
-            String texto = txtInput.getText();
-            area.setText(texto);
-        });
-
-        //5. Root y botones que dependen de root
-        //Mostrar elementos en ventana principal
-        VBox root = new VBox(15, tituloCinema, botones, area);
-        root.setAlignment(Pos.TOP_CENTER);
-        root.setStyle("-fx-padding: 20;-fx-background-color: white;");
-
-        //Acción del btn agregar contenido
-        btnAgregar.setOnAction(e -> {
-            area.clear();
-            root.getChildren().setAll(tituloCinema, botones, formularioAgregar, area);
-        });
-
+        //
         btnEjemplo.setOnAction(e -> {
             area.clear();
             root.getChildren().setAll(tituloCinema, botones, formularioInput, area);
             txtInput.clear();
         });
 
-        //6. Scene Ventana principal
+        //btn input ---------------
+        btnInput.setOnAction(e -> {
+            String texto = txtInput.getText();
+            area.setText(texto);
+        });
+
+
+        //5. Scene Ventana principal
         //                             v: anchura   v1: altura
         Scene scene = new Scene(root, 800, 400);
 
