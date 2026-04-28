@@ -28,3 +28,29 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Build Tools (Maven / Gradle) ###
+target/
+build/
+.gradle/
+
+### Compiled Files ###
+*.class
+*.jar
+*.war
+*.ear
+
+### Logs ###
+*.log
+logs/
+
+### Environment / Config ###
+.env
+.env.*
+application-local.properties
+application-local.yml
+
+### OS / Misc ###
+Thumbs.db
+*.swp
+*.swo
