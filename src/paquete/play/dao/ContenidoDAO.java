@@ -27,7 +27,8 @@ public class ContenidoDAO {
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-
+                //Se incluye el contenidoID
+                int contenidoID = rs.getInt("contenidoID");
                 String titulo = rs.getString("titulo");
                 String generoStr = rs.getString("genero");
                 int duracion = rs.getInt("duracion");
@@ -57,6 +58,9 @@ public class ContenidoDAO {
                     );
                 }
 
+                //Asignas ID
+                contenido.setContenidoID(contenidoID);
+                //Agregar a la lista
                 lista.add(contenido);
             }
 
@@ -65,6 +69,26 @@ public class ContenidoDAO {
         }
 
         return lista;
+    }
+
+    //JavaFX:
+    //Método paa actualizar contenido
+    public void actualizar(Contenido c) {
+        String sql = "UPDATE Contenido SER titulo = ?, genero = ?, duracion = ?, calificacion = ?, tipo = ?";
+
+        try(Connection conn = ConexionDB.conectar();
+        PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, c.getTitulo());
+            stmt.setString(2, c.getGenero().toString());
+            stmt.setInt(3, c.getDuracion());
+            stmt.setDouble(4, c.getCalificacion());
+            stmt.setInt(5, c.getContenidoID());
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     // Método para buscar contenido por título

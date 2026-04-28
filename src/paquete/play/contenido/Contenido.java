@@ -6,6 +6,9 @@ import java.time.LocalDate;
 
 //Declaración de la clase junto a sus atributos y metodos
 public abstract class Contenido {
+    //variable de ID de la tabla Contenido en DB
+    private int contenidoID;
+
     private String titulo;
     private String descripcion;
     private int duracion;
@@ -62,6 +65,12 @@ public abstract class Contenido {
     //Getters y Setters
 
     //La misma clase si puede acceder a sus atributos privados
+
+    //getter para ID del Contenido (nuevo)
+    public int getContenidoID() {
+        return contenidoID;
+    }
+
     public String getTitulo() {
         return titulo;
     }
@@ -90,6 +99,22 @@ public abstract class Contenido {
         return disponible;
     }
 
+    //SETTERS:
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+    //setter para ID del Contenido (nuevo)
+    public void setContenidoID(int contenidoID) {
+        this.contenidoID = contenidoID;
+    }
+
+    public void setGenero(Genero genero) {
+        this.genero = genero;
+    }
+
+    public void setCalificacion(double calificacion) {
+        this.calificacion = calificacion;
+    }
     public void setDisponible(boolean disponible) {
         this.disponible = disponible;
     }
