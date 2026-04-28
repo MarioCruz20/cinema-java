@@ -74,7 +74,8 @@ public class ContenidoDAO {
     //JavaFX:
     //Método paa actualizar contenido
     public void actualizar(Contenido c) {
-        String sql = "UPDATE Contenido SER titulo = ?, genero = ?, duracion = ?, calificacion = ?, tipo = ?";
+
+        String sql = "UPDATE Contenido SET titulo = ?, genero = ?, duracion = ?, calificacion = ? WHERE contenidoID = ?";
 
         try(Connection conn = ConexionDB.conectar();
         PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -85,10 +86,63 @@ public class ContenidoDAO {
             stmt.setDouble(4, c.getCalificacion());
             stmt.setInt(5, c.getContenidoID());
 
+            stmt.executeUpdate();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
+    }
+
+    //Metodo para buscar contenido por ID
+    public Contenido buscarPorID(int id) {
+
+        String sql = "SELECT * FROM Contenido WHERE contenidoID = ?";
+
+        try (Connection conn = ConexionDB.conectar();
+        PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if(rs.next()) {
+                String titulo = rs.getString("titulo");
+                String generoStr = rs.getString("genero");
+                int duracion = rs.getInt("duracion");
+                double calificacion = rs.getDouble("calificacion");
+                String tipo = rs.getString("tipo");
+
+                Genero genero = Genero.valueOf(generoStr.toUpperCase());
+
+                if (tipo.equalsIgnoreCase("Pelicula")) {
+
+                    return new Pelicula(
+                            titulo,
+                            duracion,
+                            genero,
+                            calificacion,
+                            "Desconocido"
+                    );
+
+                } else {
+                    return new Documental(
+                            titulo,
+                            duracion,
+                            genero,
+                            calificacion,
+                            "Desconocido",
+                            "Desconocido"
+                    );
+                }
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        //Por si no encontró nada
+        return null;
     }
 
     // Método para buscar contenido por título

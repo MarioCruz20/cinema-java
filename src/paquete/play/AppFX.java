@@ -34,14 +34,18 @@ public class AppFX extends Application {
         Button btnMostrar = new Button("Mostrar contenido");
         Button btnAgregar = new Button("Agregar contenido");
         Button btnEditar = new Button("Editar contenido");
-        Button btnBuscar = new Button("Buscar Contenido");
+        Button btnBuscarID = new Button("Buscar Contenido");
         Button btnEliminar = new Button("Eliminar contenido");
 
-        Button btnGuardar = new Button("Guardar");
-        Button btnActualizar = new Button("Actualizar");
+        //Botones secundarios
+        Button btnGuardar = new Button("Guardar"); //de Agregar contenido
+        Button btnActualizar = new Button("Actualizar"); //de Actualizar contenido
+        Button btnd = new Button("Buscar contenidoID"); //de actualizar contenido V2
 
         //2. Inputs
-        //Inputs para ingreso de datos
+        //TextFields para ingreso de datos
+
+        //AGREGAR CONTENIDO:
         TextField txtTitulo = new TextField();
         txtTitulo.setPromptText("Titulo");
 
@@ -65,13 +69,16 @@ public class AppFX extends Application {
         comboTipo.getItems().addAll("Pelicula", "Documental");
         comboTipo.setValue("Pelicula");
 
+        //ACTUALIZAR CONTENIDO:
+        TextField txtID = new TextField();
+        txtID.setPromptText("ID del contenido");
+
         //3. Layouts (VBox, HBox)
         //Área donde se muestran los resultados
         TextArea area = new TextArea();
         area.setPrefHeight(200);
 
-        //refactor: cambio para mostrar contenido con una tabla
-        //Para mostrar tabla
+        //##: cambio para mostrar contenido con una tabla
         TableView<Contenido> tabla = new TableView<>();
 
         //Creación de columnas
@@ -79,6 +86,9 @@ public class AppFX extends Application {
         TableColumn<Contenido, String> colGenero = new TableColumn<>("Genero");
         TableColumn<Contenido, Integer> colDuracion = new TableColumn<>("Duracion");
         TableColumn<Contenido, Double> colCalificacion = new TableColumn<>("Calificacion");
+        //TableColumn<Contenido, String> colTipo = new TableColumn<>("Tipo");
+        TableColumn<Contenido, Void> colEditar = new TableColumn<>("Editar");
+        TableColumn<Contenido, Void> colEliminar = new TableColumn<>("Eliminar");
 
         //Contectar columnas con los datos
         colTitulo.setCellValueFactory(data ->
@@ -98,13 +108,14 @@ public class AppFX extends Application {
         );
 
         //Para agregar columnas a la tabla
-        tabla.getColumns().addAll(colTitulo, colGenero, colDuracion, colCalificacion);
+        tabla.getColumns().addAll(colTitulo, colGenero, colDuracion, colCalificacion, colEditar, colEliminar);
 
-        HBox botones = new HBox(10, btnMostrar, btnAgregar, btnEditar, btnBuscar, btnEliminar);
-        botones.setAlignment(Pos.CENTER);
+        HBox botones = new HBox(10, btnMostrar, btnAgregar, btnBuscarID);
+
+
+        //FORMULARIOS:
 
         //Formulario para agregar contenido
-        //Muestra los elementos al usar el boton "Agregar contenido"
         VBox formularioAgregar = new VBox(10,
                 comboTipo,
                 txtTitulo,
@@ -117,28 +128,87 @@ public class AppFX extends Application {
                 btnActualizar
         );
 
-        //4. Root y Eventos (setOnAction) en Botones
+        //Formulario para buscar contenido por ID
+        VBox formularioBuscar = new VBox(10,
+                txtID,
+                btnBuscarID,
+                area
+        );
+
+        // CAMBIO: contenidoDinamico se declara ANTES de usarlo en eventos
         VBox contenidoDinamico = new VBox();
         contenidoDinamico.setAlignment(Pos.CENTER);
 
-        //Mostrar elementos en ventana principal
+        //CAMBIO: root también antes de eventos
         VBox root = new VBox(30, tituloCinema, botones, contenidoDinamico);
         root.setAlignment(Pos.TOP_CENTER);
         root.setStyle("-fx-padding: 20;-fx-background-color: white;");
 
-        //MOSTRAR CONTENIDO: Acción del botón mostrar contenido
+        // BOTÓN EDITAR EN CADA FILA
+        colEditar.setCellFactory(col -> new TableCell<>() {
+            private final Button btn = new Button("Editar");
+
+            {
+                btn.setOnAction(e -> {
+                    Contenido c = getTableView().getItems().get(getIndex());
+
+                    // Llenar formulario
+                    txtTitulo.setText(c.getTitulo());
+                    txtDuracion.setText(String.valueOf(c.getDuracion()));
+                    txtGenero.setText(c.getGenero().toString());
+                    txtCalificacion.setText(String.valueOf(c.getCalificacion()));
+
+                    // Mostrar formulario
+                    cambiarVista(contenidoDinamico, formularioAgregar, area);
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                setGraphic(empty ? null : btn);
+            }
+        });
+
+        //BOTÓN ELIMINAR EN CADA FILA
+        colEliminar.setCellFactory(col -> new TableCell<>() {
+            private final Button btn = new Button("Eliminar");
+
+            {
+                btn.setOnAction(e -> {
+                    Contenido c = getTableView().getItems().get(getIndex());
+
+                    new ContenidoDAO().eliminar(c.getContenidoID());
+
+                    //refrescar tabla después de eliminar
+                    tabla.getItems().setAll(new ContenidoDAO().listar());
+
+                    area.setText("Contenido eliminado");
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                setGraphic(empty ? null : btn);
+            }
+        });
+
+        //4. Eventos (setOnAction)
+
+        //MOSTRAR CONTENIDO
         btnMostrar.setOnAction(e -> {
             List<Contenido> lista = new ContenidoDAO().listar();
             tabla.getItems().setAll(lista);
             cambiarVista(contenidoDinamico, tabla);
         });
 
-        //AGREGAR CONTENIDO: Acción del btn agregar contenido
+        //AGREGAR CONTENIDO
         btnAgregar.setOnAction(e -> {
             cambiarVista(contenidoDinamico, formularioAgregar);
         });
 
-        //AGREGAR CONTENIDO: Acción del btn guardar
+        //GUARDAR
         btnGuardar.setOnAction(e -> {
             try {
                 String titulo = txtTitulo.getText();
@@ -156,9 +226,7 @@ public class AppFX extends Application {
                             calificacion,
                             director
                     );
-
                     new PeliculaDAO().guardar(pelicula);
-
                 } else {
                     String narrador = txtNarrador.getText();
 
@@ -170,7 +238,6 @@ public class AppFX extends Application {
                             director,
                             narrador
                     );
-
                     new DocumentalDAO().guardar(doc);
                 }
 
@@ -181,7 +248,7 @@ public class AppFX extends Application {
             }
         });
 
-        //EDITAR CONTENIDO:
+        //EDITAR CONTENIDO
         btnEditar.setOnAction(e -> {
 
             Contenido c = tabla.getSelectionModel().getSelectedItem();
@@ -199,7 +266,7 @@ public class AppFX extends Application {
             }
         });
 
-        //EDITAR CONTENIDO:
+        //ACTUALIZAR
         btnActualizar.setOnAction(e -> {
 
             Contenido seleccionado = tabla.getSelectionModel().getSelectedItem();
@@ -214,6 +281,7 @@ public class AppFX extends Application {
                     new ContenidoDAO().actualizar(seleccionado);
 
                     area.setText("Contenido actualizado");
+
                 } catch (Exception ex) {
                     area.setText("Error: " + ex.getMessage());
                 }
@@ -222,14 +290,25 @@ public class AppFX extends Application {
             }
         });
 
-        //BUSCAR CONTENIDO:
-        btnBuscar.setOnAction(e -> {
-            area.clear();
-            cambiarVista(contenidoDinamico, area);
+        //BUSCAR POR ID
+        btnBuscarID.setOnAction(e -> {
+            int id = Integer.parseInt(txtID.getText());
+
+            Contenido c = new ContenidoDAO().buscarPorID(id);
+
+            if (c != null) {
+                txtTitulo.setText(c.getTitulo());
+                txtDuracion.setText(String.valueOf(c.getDuracion()));
+                txtGenero.setText(c.getGenero().toString());
+                txtCalificacion.setText(String.valueOf(c.getCalificacion()));
+
+                cambiarVista(contenidoDinamico, formularioBuscar);
+            } else {
+                area.setText("No encontrado");
+            }
         });
 
         //5. Scene Ventana principal
-        //                             v: anchura   v1: altura
         Scene scene = new Scene(root, 800, 500);
 
         stage.setTitle("Cinema Play");

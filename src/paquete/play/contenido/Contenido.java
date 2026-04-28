@@ -51,7 +51,7 @@ public abstract class Contenido {
 
     //Metodo para obtener calificacion de la pelicula
     public void calificar(double calificacion) {
-        if (calificacion >= 0 && calificacion <= 5) {
+        if (calificacion >= 0 && calificacion <= 10) {
             this.calificacion = calificacion;
         }
     }
@@ -62,7 +62,7 @@ public abstract class Contenido {
         return calificacion >= 4;
     }
 
-    //Getters y Setters
+    //Getters
 
     //La misma clase si puede acceder a sus atributos privados
 
