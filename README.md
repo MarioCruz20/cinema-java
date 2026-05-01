@@ -1,7 +1,7 @@
 # Cinema_Star
 
 Sistema de gestión de cine desarrollado en **Java** con conexión a **SQL Server**.  
-Permite al usuario interactuar mediante un menú en consola para gestionar películas y contenido.
+Permite al usuario interactuar mediante un menú para gestionar películas y contenido.
 
 ---
 
