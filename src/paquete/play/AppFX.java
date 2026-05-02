@@ -27,20 +27,31 @@ public class AppFX extends Application {
 
         //1. UI (Labels, botones)
         //Encabezado con título
-        Label tituloCinema = new Label("Cinema Play");
-        tituloCinema.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
+        Label tituloCinema = new Label("🎬 Cinema Play");
+        tituloCinema.setStyle("-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
 
-        //Botones
+        //Botoness
         Button btnMostrar = new Button("Mostrar contenido");
         Button btnAgregar = new Button("Agregar contenido");
         Button btnEditar = new Button("Editar contenido");
         Button btnBuscarID = new Button("Buscar Contenido");
         Button btnEliminar = new Button("Eliminar contenido");
 
+        //Estilos botones
+        String estiloBoton = "-fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 8;";
+        btnMostrar.setStyle(estiloBoton);
+        btnAgregar.setStyle(estiloBoton);
+        btnEditar.setStyle(estiloBoton);
+        btnBuscarID.setStyle(estiloBoton);
+        btnEliminar.setStyle(estiloBoton);
+
         //Botones secundarios
         Button btnGuardar = new Button("Guardar"); //de Agregar contenido
         Button btnActualizar = new Button("Actualizar"); //de Actualizar contenido
         Button btnd = new Button("Buscar contenidoID"); //de actualizar contenido V2
+
+        btnGuardar.setStyle("-fx-background-color: #2ecc71; -fx-text-fill: white;");
+        btnActualizar.setStyle("-fx-background-color: #f39c12; -fx-text-fill: white;");
 
         //2. Inputs
         //TextFields para ingreso de datos
@@ -64,6 +75,15 @@ public class AppFX extends Application {
         TextField txtNarrador = new TextField();
         txtNarrador.setPromptText("Narrador");
 
+        //Estilos inputs
+        String estiloInput = "-fx-background-radius: 8; -fx-border-radius: 8; -fx-padding: 5;";
+        txtTitulo.setStyle(estiloInput);
+        txtDuracion.setStyle(estiloInput);
+        txtGenero.setStyle(estiloInput);
+        txtCalificacion.setStyle(estiloInput);
+        txtDirector.setStyle(estiloInput);
+        txtNarrador.setStyle(estiloInput);
+
         //Combobox
         ComboBox<String> comboTipo = new ComboBox<>();
         comboTipo.getItems().addAll("Pelicula", "Documental");
@@ -77,16 +97,17 @@ public class AppFX extends Application {
         //Área donde se muestran los resultados
         TextArea area = new TextArea();
         area.setPrefHeight(200);
+        area.setStyle("-fx-background-radius: 10;");
 
         //##: cambio para mostrar contenido con una tabla
         TableView<Contenido> tabla = new TableView<>();
+        tabla.setStyle("-fx-background-radius: 10;");
 
         //Creación de columnas
         TableColumn<Contenido, String> colTitulo = new TableColumn<>("Titulo");
         TableColumn<Contenido, String> colGenero = new TableColumn<>("Genero");
         TableColumn<Contenido, Integer> colDuracion = new TableColumn<>("Duracion");
         TableColumn<Contenido, Double> colCalificacion = new TableColumn<>("Calificacion");
-        //TableColumn<Contenido, String> colTipo = new TableColumn<>("Tipo");
         TableColumn<Contenido, Void> colEditar = new TableColumn<>("Editar");
         TableColumn<Contenido, Void> colEliminar = new TableColumn<>("Eliminar");
 
@@ -110,8 +131,8 @@ public class AppFX extends Application {
         //Para agregar columnas a la tabla
         tabla.getColumns().addAll(colTitulo, colGenero, colDuracion, colCalificacion, colEditar, colEliminar);
 
-        HBox botones = new HBox(10, btnMostrar, btnAgregar, btnBuscarID);
-
+        HBox botones = new HBox(15, btnMostrar, btnAgregar, btnEditar, btnBuscarID, btnEliminar);
+        botones.setAlignment(Pos.CENTER);
 
         //FORMULARIOS:
 
@@ -127,6 +148,8 @@ public class AppFX extends Application {
                 btnGuardar,
                 btnActualizar
         );
+        formularioAgregar.setAlignment(Pos.CENTER);
+        formularioAgregar.setStyle("-fx-background-color: #ecf0f1; -fx-padding: 15; -fx-background-radius: 10;");
 
         //Formulario para buscar contenido por ID
         VBox formularioBuscar = new VBox(10,
@@ -134,31 +157,31 @@ public class AppFX extends Application {
                 btnBuscarID,
                 area
         );
+        formularioBuscar.setAlignment(Pos.CENTER);
 
-        // CAMBIO: contenidoDinamico se declara ANTES de usarlo en eventos
+        //contenido dinámico
         VBox contenidoDinamico = new VBox();
         contenidoDinamico.setAlignment(Pos.CENTER);
 
-        //CAMBIO: root también antes de eventos
-        VBox root = new VBox(30, tituloCinema, botones, contenidoDinamico);
+        //Mostrar elementos en ventana principal
+        VBox root = new VBox(20, tituloCinema, botones, contenidoDinamico);
         root.setAlignment(Pos.TOP_CENTER);
-        root.setStyle("-fx-padding: 20;-fx-background-color: white;");
+        root.setStyle("-fx-padding: 20; -fx-background-color: linear-gradient(to bottom, #ffffff, #dfe6e9);");
 
-        // BOTÓN EDITAR EN CADA FILA
+        // BOTÓN EDITAR EN TABLA
         colEditar.setCellFactory(col -> new TableCell<>() {
             private final Button btn = new Button("Editar");
 
             {
+                btn.setStyle("-fx-background-color: #2980b9; -fx-text-fill: white;");
                 btn.setOnAction(e -> {
                     Contenido c = getTableView().getItems().get(getIndex());
 
-                    // Llenar formulario
                     txtTitulo.setText(c.getTitulo());
                     txtDuracion.setText(String.valueOf(c.getDuracion()));
                     txtGenero.setText(c.getGenero().toString());
                     txtCalificacion.setText(String.valueOf(c.getCalificacion()));
 
-                    // Mostrar formulario
                     cambiarVista(contenidoDinamico, formularioAgregar, area);
                 });
             }
@@ -170,17 +193,16 @@ public class AppFX extends Application {
             }
         });
 
-        //BOTÓN ELIMINAR EN CADA FILA
+        //BOTÓN ELIMINAR EN TABLA
         colEliminar.setCellFactory(col -> new TableCell<>() {
             private final Button btn = new Button("Eliminar");
 
             {
+                btn.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white;");
                 btn.setOnAction(e -> {
                     Contenido c = getTableView().getItems().get(getIndex());
 
                     new ContenidoDAO().eliminar(c.getContenidoID());
-
-                    //refrescar tabla después de eliminar
                     tabla.getItems().setAll(new ContenidoDAO().listar());
 
                     area.setText("Contenido eliminado");
@@ -193,8 +215,6 @@ public class AppFX extends Application {
                 setGraphic(empty ? null : btn);
             }
         });
-
-        //4. Eventos (setOnAction)
 
         //MOSTRAR CONTENIDO
         btnMostrar.setOnAction(e -> {
@@ -248,24 +268,6 @@ public class AppFX extends Application {
             }
         });
 
-        //EDITAR CONTENIDO
-        btnEditar.setOnAction(e -> {
-
-            Contenido c = tabla.getSelectionModel().getSelectedItem();
-
-            if (c != null) {
-                txtTitulo.setText(c.getTitulo());
-                txtDuracion.setText(String.valueOf(c.getDuracion()));
-                txtGenero.setText(c.getGenero().toString());
-                txtCalificacion.setText(String.valueOf(c.getCalificacion()));
-
-                cambiarVista(contenidoDinamico, formularioAgregar, area);
-            } else {
-                area.setText("Selecciona un contenido primero");
-                cambiarVista(contenidoDinamico, tabla, area);
-            }
-        });
-
         //ACTUALIZAR
         btnActualizar.setOnAction(e -> {
 
@@ -309,7 +311,7 @@ public class AppFX extends Application {
         });
 
         //5. Scene Ventana principal
-        Scene scene = new Scene(root, 800, 500);
+        Scene scene = new Scene(root, 900, 550);
 
         stage.setTitle("Cinema Play");
         stage.setScene(scene);
