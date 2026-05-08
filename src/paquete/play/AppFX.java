@@ -27,7 +27,7 @@ public class AppFX extends Application {
 
         //1. UI (Labels, botones)
         //Encabezado con título
-        Label tituloCinema = new Label("🎬 Cinema Play");
+        Label tituloCinema = new Label("Cinema Play");
         tituloCinema.setStyle("-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
 
         //Botoness
